@@ -106,10 +106,25 @@
         .trend-title-area h3 { margin: 0; color: var(--primary); font-size: 18px; }
         .trend-title-area p { margin: 5px 0 0 0; font-size: 12px; color: #666; }
 
-        .chart-average {
-            margin-top: 15px; padding-top: 10px; border-top: 1px dashed #eee;
-            font-size: 14px; font-weight: bold; color: var(--primary);
+        /* 평균 점수 대시보드 스타일 (새로 추가됨) */
+        .avg-dashboard {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed #eee;
         }
+        .avg-box {
+            flex: 1;
+            text-align: center;
+            border-right: 1px solid #eee;
+        }
+        .avg-box:last-child { border-right: none; }
+        .avg-label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; font-weight: 500; }
+        .avg-value { font-size: 15px; font-weight: 800; color: #333; }
+        
+        /* 전체 평균 강조 */
+        .avg-value.main { color: var(--primary); font-size: 18px; }
 
         /* 과목 카드 스타일 */
         .subject-card {
@@ -270,7 +285,21 @@
             <div class="chart-wrapper">
                 <canvas id="gradeChart"></canvas>
             </div>
-            <div id="chartAverage" class="chart-average">전체 평균 0점</div>
+            <!-- 평균 점수 대시보드 (수정됨) -->
+            <div id="chartAverageContainer" class="avg-dashboard">
+                <div class="avg-box">
+                    <span class="avg-label">전체 평균</span>
+                    <span class="avg-value main" id="avgTotal">0점</span>
+                </div>
+                <div class="avg-box">
+                    <span class="avg-label">1차 평균</span>
+                    <span class="avg-value" id="avgExam1">0점</span>
+                </div>
+                <div class="avg-box">
+                    <span class="avg-label">2차 평균</span>
+                    <span class="avg-value" id="avgExam2">0점</span>
+                </div>
+            </div>
         </div>
         <div id="subjectList"></div>
     </div>
@@ -602,6 +631,24 @@
         }, 0);
     }
     
+    // 지필평가 평균 계산 로직 (새로 추가됨)
+    function calculateExamAvg(nth) {
+        let total = 0;
+        let count = 0;
+        subjects.forEach(sub => {
+            // "1차" 또는 "2차" 텍스트가 있고, 지필평가인 항목 찾기
+            const perf = sub.performances.find(p => 
+                p.name.includes(nth) && checkIsWrittenExam(p.name)
+            );
+            // 해당 평가 항목이 존재하는 경우 (점수 0이어도 시험 범위면 포함)
+            if (perf) {
+                total += perf.score;
+                count++;
+            }
+        });
+        return count === 0 ? 0 : truncateScore(total / count);
+    }
+    
     // 소수점 셋째자리 버림 처리 함수 (부동소수점 오차 방지 포함)
     function truncateScore(num) {
         // toFixed(4)로 미세한 오차를 보정한 뒤, 100을 곱해 내림(floor) 처리
@@ -810,7 +857,11 @@
         const avg = (sum / data.length) || 0;
         // 평균 점수도 버림 처리
         const displayAvg = truncateScore(avg);
-        document.getElementById('chartAverage').innerText = `전체 평균 ${displayAvg}점`;
+        
+        // 전체 평균 UI 업데이트 (새로 추가됨)
+        document.getElementById('avgTotal').innerText = `${displayAvg}점`;
+        document.getElementById('avgExam1').innerText = `${calculateExamAvg("1차")}점`;
+        document.getElementById('avgExam2').innerText = `${calculateExamAvg("2차")}점`;
         
         myChart = new Chart(ctx, {
             type: 'bar',
@@ -818,7 +869,13 @@
                 labels: labels,
                 datasets: [{
                     label: '점수', data: data,
-                    backgroundColor: data.map(score => { if(score >= 90) return 'rgba(92, 107, 192, 0.8)'; if(score >= 70) return 'rgba(38, 198, 218, 0.8)'; return 'rgba(255, 82, 82, 0.8)'; }),
+                    backgroundColor: data.map(score => { 
+                        if(score >= 90) return 'rgba(63, 81, 181, 0.8)';   // A - 파랑 (Indigo)
+                        if(score >= 80) return 'rgba(76, 175, 80, 0.8)';   // B - 초록 (Green)
+                        if(score >= 70) return 'rgba(255, 193, 7, 0.8)';   // C - 노랑 (Amber)
+                        if(score >= 60) return 'rgba(255, 152, 0, 0.8)';   // D - 주황 (Orange)
+                        return 'rgba(244, 67, 54, 0.8)';                   // E - 빨강 (Red)
+                    }),
                     borderRadius: 5, borderWidth: 0
                 }]
             },
@@ -832,13 +889,24 @@
         const newData = subjects.map(s => truncateScore(calculateTotal(s))); 
         const newLabels = subjects.map(s => { const t = calculateTotal(s); const g = getGrade(t); return g ? `${s.subject}(${g})` : s.subject; });
         myChart.data.datasets[0].data = newData;
-        myChart.data.datasets[0].backgroundColor = newData.map(score => { if(score >= 90) return 'rgba(92, 107, 192, 0.8)'; if(score >= 70) return 'rgba(38, 198, 218, 0.8)'; return 'rgba(255, 82, 82, 0.8)'; });
+        myChart.data.datasets[0].backgroundColor = newData.map(score => { 
+            if(score >= 90) return 'rgba(63, 81, 181, 0.8)';   // A
+            if(score >= 80) return 'rgba(76, 175, 80, 0.8)';   // B
+            if(score >= 70) return 'rgba(255, 193, 7, 0.8)';   // C
+            if(score >= 60) return 'rgba(255, 152, 0, 0.8)';   // D
+            return 'rgba(244, 67, 54, 0.8)';                   // E
+        });
         myChart.data.labels = newLabels;
         const sum = newData.reduce((a, b) => a + b, 0);
         const avg = (sum / newData.length) || 0;
         // 평균 점수 버림 처리
         const displayAvg = truncateScore(avg);
-        document.getElementById('chartAverage').innerText = `전체 평균 ${displayAvg}점`;
+        
+        // 전체 평균 UI 업데이트
+        document.getElementById('avgTotal').innerText = `${displayAvg}점`;
+        document.getElementById('avgExam1').innerText = `${calculateExamAvg("1차")}점`;
+        document.getElementById('avgExam2').innerText = `${calculateExamAvg("2차")}점`;
+        
         myChart.update();
     }
 </script>
