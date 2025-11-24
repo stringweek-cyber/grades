@@ -621,9 +621,7 @@
     function getGradeText(score, subjectName) {
         const grade = getGrade(score);
         if (!grade) return '';
-        if (subjectName === '역사' && grade === 'A') {
-            return ` (<span style="color: #0000f2; font-weight: 900;">${grade}</span>)`;
-        }
+        // 역사 과목 A등급 강조 로직 삭제 -> 모든 과목 동일하게 표시
         return ` (${grade})`;
     }
 
