@@ -249,6 +249,7 @@
             font-size: 13px;
             line-height: 1.5;
             color: #555;
+            letter-spacing: -1.2px; /* 자간 과감하게 축소 */
         }
         .section-content b {
             color: #d32f2f;
@@ -264,23 +265,23 @@
         }
         .step-row p { 
             margin: 0; 
-            letter-spacing: -0.5px; /* 자간을 -1px에서 -0.5px로 완화 */
+            letter-spacing: -1.2px; /* 자간 과감하게 축소 */
             flex: 1; /* 텍스트가 공간 차지 */
         }
 
         /* 섹션 내 버튼 스타일 (인라인 버튼용) */
         .btn-inline-action {
-            padding: 5px 8px; /* 좌우 패딩 축소 */
+            padding: 4px 6px; /* 패딩 축소 (다이어트) */
             border: 1px solid #ddd;
             border-radius: 6px;
             background: #fff;
-            font-size: 12px;
+            font-size: 11px; /* 글자 크기 축소 */
             font-weight: 600;
             color: #555;
             cursor: pointer;
             transition: background 0.2s;
             white-space: nowrap;
-            margin-left: 5px; /* 텍스트와 간격 */
+            margin-left: 4px; /* 간격 최소화 */
         }
         .btn-inline-action:hover { background: #f5f5f5; }
         .btn-inline-action.primary { background-color: #e8eaf6; color: var(--primary); border-color: #c5cae9; }
@@ -436,7 +437,8 @@
                     <p>1️⃣ <b>[전체 데이터 복사]</b> 버튼 클릭</p>
                     <button class="btn-inline-action success" onclick="copyAllData(this)">💾 전체 데이터 복사</button>
                 </div>
-                <p>2️⃣ 새 앱에 접속 후 <b>[코드 입력창]</b>에 붙여넣고 <b>저장 및 적용</b></p>
+                <!-- 줄바꿈 <br> 적용 -->
+                <p>2️⃣ 새 앱에 접속 후 <b>[코드 입력창]</b>에 붙여넣고<br><b>저장 및 적용</b></p>
             </div>
         </div>
 
