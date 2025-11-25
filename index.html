@@ -19,6 +19,9 @@
             --danger: #ef5350;
             --success-bg: #e8f5e9;
             --success-text: #2e7d32;
+            
+            /* 텍스트 색상 변수 */
+            --text-perf: #1976D2; /* 수행평가: 파랑 */
         }
 
         * { box-sizing: border-box; }
@@ -159,8 +162,24 @@
         .perf-row-main { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
         
         .perf-left { display: block; flex: 1; min-width: 0; margin-right: 8px; }
-        .perf-title-text { font-size: 15px; font-weight: 600; color: #333; display: inline; line-height: 1.4; word-break: keep-all; }
-        .written-exam-text { color: var(--highlight) !important; }
+        
+        /* 평가 항목 제목 스타일 개선 */
+        .perf-title-text { 
+            font-size: 15px; 
+            font-weight: 600; 
+            color: var(--text-perf); /* 수행평가: 파란색 */
+            display: inline; 
+            line-height: 1.4; 
+            word-break: keep-all; 
+        }
+        /* 지필평가 강조 스타일 (배지 형태) */
+        .written-exam-text { 
+            color: #283593 !important; /* 짙은 남색 텍스트 */
+            background-color: #e8eaf6; /* 연한 남색 배경 */
+            padding: 3px 6px; /* 안쪽 여백 */
+            border-radius: 4px; /* 둥근 모서리 */
+            font-weight: 700; /* 굵게 */
+        }
 
         .perf-ratio-badge {
             font-size: 11px; background: #f1f2f6; color: #666; padding: 2px 6px;
@@ -219,25 +238,25 @@
         
         .modal h3 { margin-top: 0; color: var(--primary); }
         
-        /* 설정 모달 버튼 */
-        .btn-save { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; cursor: pointer; flex: 1; }
+        /* 설정 모달 버튼 (수정됨: 높이 줄임) */
+        .btn-save { background: var(--primary); color: white; border: none; padding: 10px 0; border-radius: 8px; font-size: 15px; cursor: pointer; flex: 1; }
         
         /* 섹션 박스 스타일 (공통) */
         .section-box {
-            border: 1px solid #ddd;
+            border: 1px solid #dae0f2;
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 15px;
         }
         .section-header {
-            background-color: #f1f3f5;
+            background-color: #eef2ff;
             padding: 10px 15px;
             font-size: 14px;
             font-weight: bold;
             color: #333;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #dae0f2;
             display: flex;
-            justify-content: space-between; /* 양쪽 정렬 */
+            justify-content: space-between;
             align-items: center;
         }
         .section-content {
@@ -249,7 +268,7 @@
             font-size: 13px;
             line-height: 1.5;
             color: #555;
-            letter-spacing: -1.2px; /* 자간 과감하게 축소 */
+            letter-spacing: -1.2px; 
         }
         .section-content b {
             color: #d32f2f;
@@ -265,44 +284,44 @@
         }
         .step-row p { 
             margin: 0; 
-            letter-spacing: -1.2px; /* 자간 과감하게 축소 */
-            flex: 1; /* 텍스트가 공간 차지 */
+            letter-spacing: -1.2px; 
+            flex: 1; 
         }
 
-        /* 섹션 내 버튼 스타일 (인라인 버튼용) */
+        /* 섹션 내 버튼 스타일 */
         .btn-inline-action {
-            padding: 4px 6px; /* 패딩 축소 (다이어트) */
+            padding: 4px 6px; 
             border: 1px solid #ddd;
             border-radius: 6px;
             background: #fff;
-            font-size: 11px; /* 글자 크기 축소 */
+            font-size: 11px; 
             font-weight: 600;
             color: #555;
             cursor: pointer;
             transition: background 0.2s;
             white-space: nowrap;
-            margin-left: 4px; /* 간격 최소화 */
+            margin-left: 4px; 
         }
         .btn-inline-action:hover { background: #f5f5f5; }
         .btn-inline-action.primary { background-color: #e8eaf6; color: var(--primary); border-color: #c5cae9; }
         .btn-inline-action.success { background-color: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
 
-        /* 헤더 안의 작은 버튼 */
+        /* 헤더 안의 작은 버튼 (비우기 버튼) */
         .btn-header-small {
             background: #fff;
             border: 1px solid #ccc;
             border-radius: 4px;
-            padding: 2px 8px;
-            font-size: 11px;
+            padding: 4px 10px; 
+            font-size: 12px; 
             color: #555;
             cursor: pointer;
         }
         .btn-header-small:hover { background: #f0f0f0; color: #333; }
 
-        /* 코드 입력창 내용 */
+        /* 코드 입력창 내용 (수정됨: 높이 90px로 축소) */
         .code-textarea {
             width: 100%;
-            height: 120px; 
+            height: 90px; /* 높이를 줄여서 다른 섹션과 균형 맞춤 */
             border: none;
             background: #fff;
             font-family: monospace;
@@ -314,8 +333,10 @@
         }
         .code-textarea::placeholder { color: #bbb; }
 
-        .btn-close { background: #f5f5f5; color: #777; border: 1px solid #ddd; padding: 12px; border-radius: 8px; font-size: 16px; cursor: pointer; flex: 1; }
+        /* 닫기 버튼 (수정됨: 높이 줄임) */
+        .btn-close { background: #f5f5f5; color: #777; border: 1px solid #ddd; padding: 10px 0; border-radius: 8px; font-size: 15px; cursor: pointer; flex: 1; }
         .btn-close:hover { background: #e0e0e0; }
+        
         .modal-btn-group { display: flex; gap: 10px; margin-top: 15px; }
         
         .toast-message { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(100px); background: rgba(40, 44, 52, 0.9); color: white; padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 500; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); z-index: 2000; opacity: 0; box-shadow: 0 4px 15px rgba(0,0,0,0.2); pointer-events: none; }
@@ -392,10 +413,10 @@
     </div>
 </div>
 
-<!-- 설정 모달 (UI 전면 개편) -->
+<!-- 설정 모달 -->
 <div id="settingModal" class="modal-overlay">
     <div class="modal">
-        <h3>📋 설정 및 백업</h3>
+        <h3>⚙️ 설정 및 백업</h3>
         
         <!-- 기본 학기 설정 영역 -->
         <div class="default-semester-area">
@@ -417,7 +438,7 @@
             </div>
             <div class="section-content">
                 <p>1️⃣ <b>평가계획서 사진</b>을 제미나이에 업로드</p>
-                <!-- 2번 단계: 텍스트와 버튼을 가로로 배치 -->
+                <!-- 2번 단계 -->
                 <div class="step-row">
                     <p>2️⃣ <b>[프롬프트 복사]</b> 후 제미나이에 입력</p>
                     <button class="btn-inline-action primary" onclick="copyPrompt(this)">📋 프롬프트 복사</button>
@@ -432,17 +453,16 @@
                 💾 백업 및 복구
             </div>
             <div class="section-content">
-                <!-- 1번 단계: 텍스트와 버튼을 가로로 배치 -->
+                <!-- 1번 단계 -->
                 <div class="step-row">
                     <p>1️⃣ <b>[전체 데이터 복사]</b> 버튼 클릭</p>
                     <button class="btn-inline-action success" onclick="copyAllData(this)">💾 전체 데이터 복사</button>
                 </div>
-                <!-- 줄바꿈 <br> 적용 -->
-                <p>2️⃣ 새 앱에 접속 후 <b>[코드 입력창]</b>에 붙여넣고<b>저장 및 적용</b></p>
+                <p>2️⃣ 새 앱에 접속 후 <b>[코드 입력창]</b>에 붙여넣고 <b>저장 및 적용</b></p>
             </div>
         </div>
 
-        <!-- 섹션 3: 코드 입력창 (비우기 버튼 헤더에 통합) -->
+        <!-- 섹션 3: 코드 입력창 -->
         <div class="section-box">
             <div class="section-header">
                 <span>💻 코드 입력창</span>
@@ -758,10 +778,11 @@
         return count === 0 ? 0 : truncateScore(total / count);
     }
     
-    // 소수점 셋째자리 버림 처리 함수 (부동소수점 오차 방지 포함)
+    // 소수점 둘째자리 버림 처리 함수 (요청 반영)
+    // 예: 89.15 -> 89.1 (소수 첫째자리까지 표시)
     function truncateScore(num) {
-        // toFixed(4)로 미세한 오차를 보정한 뒤, 100을 곱해 내림(floor) 처리
-        return Math.floor(Number(num.toFixed(4)) * 100) / 100;
+        // *100 -> *10 으로 변경하여 둘째자리 이하를 버림
+        return Math.floor(Number(num.toFixed(4)) * 10) / 10;
     }
 
     function getGrade(score) {
@@ -791,7 +812,7 @@
         list.innerHTML = '';
         subjects.forEach((sub, subIdx) => {
             let totalScore = calculateTotal(sub);
-            // 소수 셋째자리 버림 처리
+            // 소수 둘째자리 버림 처리
             let displayScore = truncateScore(totalScore); 
             let gradeText = getGradeText(totalScore, sub.subject);
             const perfCount = sub.performances.filter(p => !checkIsWrittenExam(p.name)).length;
@@ -821,7 +842,7 @@
                         <div class="perf-row-main">
                             <div class="perf-left"><span class="${titleClass}">${perf.name}</span><span class="perf-ratio-badge">비율 ${perf.ratio}%</span></div>
                             <div class="perf-right">
-                                <input type="number" step="0.01" class="score-input" placeholder="0" min="0" max="100" value="${inputValue}" onchange="updateScore(${subIdx}, ${perfIdx}, this.value)">
+                                <input type="number" step="0.1" class="score-input" placeholder="0" min="0" max="100" value="${inputValue}" onchange="updateScore(${subIdx}, ${perfIdx}, this.value)">
                                 <span class="unit-text">점</span>
                             </div>
                         </div>
@@ -1090,4 +1111,3 @@
 </script>
 </body>
 </html>
-
