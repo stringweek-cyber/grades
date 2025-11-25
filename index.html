@@ -219,71 +219,99 @@
         
         .modal h3 { margin-top: 0; color: var(--primary); }
         
-        /* 가이드 박스 스타일 */
-        .guide-box {
-            background-color: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 15px;
-        }
-        .guide-box p {
-            margin: 5px 0;
-            font-size: 13px;
-            line-height: 1.5;
-            color: #555;
-        }
-        .guide-box b {
-            color: #d32f2f;
-            font-weight: 700;
-        }
-        
         /* 설정 모달 버튼 */
         .btn-save { background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 16px; cursor: pointer; flex: 1; }
         
-        /* 상단 버튼 그룹 */
-        .top-btn-group { display: flex; gap: 8px; margin-bottom: 15px; }
-        .btn-copy { flex: 1; background: #f0f0f0; color: #555; border: 1px solid #ddd; padding: 10px 5px; border-radius: 8px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: all 0.2s ease; text-align: center; line-height: 1.3; letter-spacing: -1px; }
-        .btn-copy:hover { background: #e0e0e0; transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .btn-copy:active { transform: translateY(0); box-shadow: none; background: #dcdcdc; }
-        
-        .btn-clear { flex: 1; background: #fff0f0; color: #d32f2f; border: 1px solid #ffcdd2; padding: 10px 5px; border-radius: 8px; font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; transition: all 0.2s ease; text-align: center; line-height: 1.3; letter-spacing: -1px; }
-        .btn-clear:hover { background: #ffebee; }
-
-        /* 코드 입력 박스 일체형 스타일 (새로 추가됨) */
-        .code-box-container {
+        /* 섹션 박스 스타일 (공통) */
+        .section-box {
             border: 1px solid #ddd;
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 15px;
         }
-        .code-box-header {
+        .section-header {
             background-color: #f1f3f5;
             padding: 10px 15px;
             font-size: 14px;
             font-weight: bold;
-            color: #555;
+            color: #333;
             border-bottom: 1px solid #ddd;
             display: flex;
+            justify-content: space-between; /* 양쪽 정렬 */
             align-items: center;
-            gap: 6px;
         }
-        .code-box-content {
+        .section-content {
+            padding: 12px;
+            background: #fff;
+        }
+        .section-content p {
+            margin: 5px 0;
+            font-size: 13px;
+            line-height: 1.5;
+            color: #555;
+        }
+        .section-content b {
+            color: #d32f2f;
+            font-weight: 700;
+        }
+
+        /* 단계별 행 스타일 */
+        .step-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 5px 0;
+        }
+        .step-row p { 
+            margin: 0; 
+            letter-spacing: -0.5px; /* 자간을 -1px에서 -0.5px로 완화 */
+            flex: 1; /* 텍스트가 공간 차지 */
+        }
+
+        /* 섹션 내 버튼 스타일 (인라인 버튼용) */
+        .btn-inline-action {
+            padding: 5px 8px; /* 좌우 패딩 축소 */
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background: #fff;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            cursor: pointer;
+            transition: background 0.2s;
+            white-space: nowrap;
+            margin-left: 5px; /* 텍스트와 간격 */
+        }
+        .btn-inline-action:hover { background: #f5f5f5; }
+        .btn-inline-action.primary { background-color: #e8eaf6; color: var(--primary); border-color: #c5cae9; }
+        .btn-inline-action.success { background-color: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
+
+        /* 헤더 안의 작은 버튼 */
+        .btn-header-small {
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 11px;
+            color: #555;
+            cursor: pointer;
+        }
+        .btn-header-small:hover { background: #f0f0f0; color: #333; }
+
+        /* 코드 입력창 내용 */
+        .code-textarea {
             width: 100%;
-            height: 150px;
+            height: 120px; 
             border: none;
-            padding: 15px;
             background: #fff;
             font-family: monospace;
-            font-size: 13px;
+            font-size: 12px;
             resize: none;
             outline: none;
             display: block;
             color: #333;
         }
-        .code-box-content::placeholder {
-            color: #bbb;
-        }
+        .code-textarea::placeholder { color: #bbb; }
 
         .btn-close { background: #f5f5f5; color: #777; border: 1px solid #ddd; padding: 12px; border-radius: 8px; font-size: 16px; cursor: pointer; flex: 1; }
         .btn-close:hover { background: #e0e0e0; }
@@ -363,10 +391,10 @@
     </div>
 </div>
 
-<!-- 설정 모달 -->
+<!-- 설정 모달 (UI 전면 개편) -->
 <div id="settingModal" class="modal-overlay">
     <div class="modal">
-        <h3>📋 평가항목&비율 자동 설정</h3>
+        <h3>📋 설정 및 백업</h3>
         
         <!-- 기본 학기 설정 영역 -->
         <div class="default-semester-area">
@@ -381,30 +409,46 @@
             </select>
         </div>
 
-        <!-- 사용 가이드 박스 -->
-        <div class="guide-box">
-            <p>1️⃣ <b>평가계획서 사진</b>을 제미나이에 업로드</p>
-            <p>2️⃣ 아래 <b>프롬프트 복사</b> 후 제미나이에 입력</p>
-            <p>3️⃣ <b>[코드 입력창 비우기]</b> 버튼 클릭</p>
-            <p>4️⃣ 비워진 창에 <b>제미나이에서 생성된 코드 붙여넣기</b></p>
-        </div>
-        
-        <!-- 버튼 그룹 (복사 / 비우기) -->
-        <div class="top-btn-group">
-            <button class="btn-copy" onclick="copyPrompt(this)">
-                📋 프롬프트 복사
-            </button>
-            <button class="btn-clear" onclick="clearJsonInput()">
-                🗑️ 코드 입력창 비우기
-            </button>
+        <!-- 섹션 1: 평가항목&비율 자동 입력 -->
+        <div class="section-box">
+            <div class="section-header">
+                🤖 평가항목&비율 자동 입력
+            </div>
+            <div class="section-content">
+                <p>1️⃣ <b>평가계획서 사진</b>을 제미나이에 업로드</p>
+                <!-- 2번 단계: 텍스트와 버튼을 가로로 배치 -->
+                <div class="step-row">
+                    <p>2️⃣ <b>[프롬프트 복사]</b> 후 제미나이에 입력</p>
+                    <button class="btn-inline-action primary" onclick="copyPrompt(this)">📋 프롬프트 복사</button>
+                </div>
+                <p>3️⃣ 제미나이에서 생성된 코드를 <b>[코드 입력창]</b>에 입력</p>
+            </div>
         </div>
 
-        <!-- 코드 입력창 (일체형 디자인 적용) -->
-        <div class="code-box-container">
-            <div class="code-box-header">
-                💻 코드 입력창
+        <!-- 섹션 2: 백업 및 복구 -->
+        <div class="section-box">
+            <div class="section-header">
+                💾 백업 및 복구
             </div>
-            <textarea id="jsonConfig" class="code-box-content" placeholder="여기에 코드를 붙여넣으세요."></textarea>
+            <div class="section-content">
+                <!-- 1번 단계: 텍스트와 버튼을 가로로 배치 -->
+                <div class="step-row">
+                    <p>1️⃣ <b>[전체 데이터 복사]</b> 버튼 클릭</p>
+                    <button class="btn-inline-action success" onclick="copyAllData(this)">💾 전체 데이터 복사</button>
+                </div>
+                <p>2️⃣ 새 앱에 접속 후 <b>[코드 입력창]</b>에 붙여넣고 <b>저장 및 적용</b></p>
+            </div>
+        </div>
+
+        <!-- 섹션 3: 코드 입력창 (비우기 버튼 헤더에 통합) -->
+        <div class="section-box">
+            <div class="section-header">
+                <span>💻 코드 입력창</span>
+                <button class="btn-header-small" onclick="clearJsonInput()">🗑️ 비우기</button>
+            </div>
+            <div class="section-content" style="padding:0;">
+                <textarea id="jsonConfig" class="code-textarea" placeholder="여기에 코드를 붙여넣으세요."></textarea>
+            </div>
         </div>
         
         <!-- 하단 버튼 그룹 -->
@@ -870,20 +914,55 @@
 
     function saveGlobalConfig() {
         try {
-            // 1. 데이터 저장
-            subjects = JSON.parse(document.getElementById('jsonConfig').value);
+            // 1. 데이터 파싱
+            const inputValue = document.getElementById('jsonConfig').value;
+            if (!inputValue.trim()) {
+                showToast("입력된 코드가 없습니다.");
+                return;
+            }
+            const parsedData = JSON.parse(inputValue);
             
-            // 2. 기본 학기 설정 저장
+            // 2. 기본 학기 설정 저장 (항상 수행)
             const selectedDefault = document.getElementById('defaultSemesterSelect').value;
             localStorage.setItem('defaultSemesterId', selectedDefault);
 
-            saveData(); 
-            renderSubjects(); 
-            renderChart(); 
+            // 3. 데이터 형태에 따른 분기 처리
+            if (Array.isArray(parsedData)) {
+                // Case A: 단일 학기 데이터 (배열 형태) -> 현재 학기에만 적용
+                subjects = parsedData;
+                saveData(); // 현재 semesterId로 저장
+                renderSubjects();
+                renderChart();
+                showToast("현재 학기 설정이 적용되었습니다.");
+            } else if (typeof parsedData === 'object') {
+                // Case B: 전체 백업 데이터 (객체 형태) -> 모든 학기 복구
+                // 예: { "grade_1_1": [...], "grade_1_2": [...] }
+                let restoreCount = 0;
+                for (const [key, value] of Object.entries(parsedData)) {
+                    if (key.startsWith('grade_') && Array.isArray(value)) {
+                        localStorage.setItem(key, JSON.stringify(value));
+                        restoreCount++;
+                    }
+                }
+                
+                // 현재 보고 있는 학기의 데이터도 갱신
+                loadData(currentSemesterId);
+                renderSubjects();
+                renderChart();
+                
+                if (restoreCount > 0) {
+                    showToast(`총 ${restoreCount}개 학기의 데이터가 복구되었습니다!`);
+                } else {
+                    showToast("복구할 유효한 학기 데이터가 없습니다.");
+                }
+            } else {
+                throw new Error("올바르지 않은 데이터 형식입니다.");
+            }
+
             closeModal('settingModal'); 
-            showToast("설정이 저장 및 적용되었습니다.");
         } catch(e) { 
-            showToast("JSON 코드 오류입니다."); 
+            console.error(e);
+            showToast("JSON 코드 오류입니다. 올바른 코드를 입력해주세요."); 
         }
     }
     
@@ -899,11 +978,45 @@
         const textArea = document.createElement("textarea"); textArea.value = promptText; textArea.style.position = "fixed"; textArea.style.left = "-9999px"; document.body.appendChild(textArea); textArea.select();
         try { document.execCommand('copy'); 
             const originalText = btnElement.innerHTML;
-            btnElement.innerHTML = "✅ 프롬프트가 복사되었습니다!";
-            btnElement.style.backgroundColor = "#d4edda"; btnElement.style.color = "#155724"; btnElement.style.borderColor = "#c3e6cb";
-            setTimeout(() => { btnElement.innerHTML = originalText; btnElement.style.backgroundColor = "#f0f0f0"; btnElement.style.color = "#555"; btnElement.style.borderColor = "#ddd"; }, 2000);
+            btnElement.innerHTML = "✅ 복사 완료!";
+            setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
         } catch (err) { showToast("복사 실패."); } finally { document.body.removeChild(textArea); }
     }
+
+    // 전체 데이터 복사 (백업) 함수 - 모든 학기 데이터 수집
+    function copyAllData(btnElement) {
+        const allData = {};
+        const semesters = ['grade_1_1', 'grade_1_2', 'grade_2_1', 'grade_2_2', 'grade_3_1', 'grade_3_2'];
+        
+        let count = 0;
+        semesters.forEach(sem => {
+            const data = localStorage.getItem(sem);
+            if (data) {
+                try {
+                    allData[sem] = JSON.parse(data);
+                    count++;
+                } catch (e) {
+                    console.warn(`Failed to parse data for ${sem}`);
+                }
+            }
+        });
+
+        if (count === 0) {
+            showToast("저장된 데이터가 없습니다.");
+            return;
+        }
+
+        const jsonString = JSON.stringify(allData, null, 2);
+        
+        const textArea = document.createElement("textarea"); textArea.value = jsonString; textArea.style.position = "fixed"; textArea.style.left = "-9999px"; document.body.appendChild(textArea); textArea.select();
+        try { document.execCommand('copy'); 
+            const originalText = btnElement.innerHTML;
+            btnElement.innerHTML = "✅ 전체 데이터 복사됨!";
+            showToast(`모든 학기(${count}개) 데이터가 클립보드에 복사되었습니다.`);
+            setTimeout(() => { btnElement.innerHTML = originalText; }, 2000);
+        } catch (err) { showToast("복사 실패."); } finally { document.body.removeChild(textArea); }
+    }
+
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
     function showToast(message) {
         const toast = document.createElement('div'); toast.className = 'toast-message'; toast.innerText = message; document.body.appendChild(toast);
