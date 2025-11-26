@@ -21,7 +21,8 @@
             --success-text: #2e7d32;
             
             /* 텍스트 색상 변수 */
-            --text-perf: #5C6BC0; /* 수행평가: 헤더 타이틀(--primary)과 동일한 색상 */
+            --text-perf: #5C6BC0; 
+            --text-exam: #283593; 
         }
 
         * { box-sizing: border-box; }
@@ -35,12 +36,10 @@
             overflow-x: hidden;
         }
 
-        /* 숫자 입력칸 화살표 제거 (크로스 브라우저 대응) */
         input[type=number]::-webkit-inner-spin-button, 
         input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
         input[type=number] { -moz-appearance: textfield; }
 
-        /* 헤더 */
         header {
             background-color: var(--white);
             padding: 15px 20px;
@@ -55,7 +54,6 @@
         .header-title { font-size: 18px; font-weight: 700; color: var(--primary); }
         .icon-btn { font-size: 24px; cursor: pointer; background: none; border: none; padding: 5px; }
 
-        /* 사이드바 & 오버레이 */
         #sidebar {
             position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
             background: white; z-index: 2000; transition: left 0.3s ease;
@@ -88,15 +86,12 @@
         }
         #overlay.show { display: block; }
 
-        /* 메인 컨테이너 */
         .container { max-width: 600px; margin: 0 auto; padding: 15px; }
 
-        /* 뷰 전환용 */
         .view-section { display: none; }
         .view-section.active { display: block; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* 차트 카드 */
         .chart-card {
             background: var(--white); border-radius: 15px; padding: 20px;
             margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); text-align: center;
@@ -109,7 +104,6 @@
         .trend-title-area h3 { margin: 0; color: var(--primary); font-size: 18px; }
         .trend-title-area p { margin: 5px 0 0 0; font-size: 12px; color: #666; }
 
-        /* 평균 점수 대시보드 스타일 */
         .avg-dashboard {
             display: flex;
             justify-content: space-between;
@@ -125,11 +119,8 @@
         .avg-box:last-child { border-right: none; }
         .avg-label { display: block; font-size: 11px; color: #666; margin-bottom: 4px; font-weight: 500; }
         .avg-value { font-size: 15px; font-weight: 800; color: #333; }
-        
-        /* 전체 평균 강조 */
         .avg-value.main { color: var(--primary); font-size: 18px; }
 
-        /* 과목 카드 스타일 */
         .subject-card {
             background: var(--white); border-radius: 12px; margin-bottom: 15px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.03); overflow: hidden; border: 1px solid white;
@@ -163,22 +154,13 @@
         
         .perf-left { display: block; flex: 1; min-width: 0; margin-right: 8px; }
         
-        /* 평가 항목 제목 스타일 개선 */
         .perf-title-text { 
-            font-size: 15px; 
-            font-weight: 600; 
-            color: var(--text-perf); /* 수행평가: 헤더와 동일색 */
-            display: inline; 
-            line-height: 1.4; 
-            word-break: keep-all; 
+            font-size: 15px; font-weight: 600; color: var(--text-perf); 
+            display: inline; line-height: 1.4; word-break: keep-all; 
         }
-        /* 지필평가 강조 스타일 (배지 형태) */
         .written-exam-text { 
-            color: #283593 !important; /* 짙은 남색 텍스트 */
-            background-color: #e8eaf6; /* 연한 남색 배경 */
-            padding: 3px 6px; /* 안쪽 여백 */
-            border-radius: 4px; /* 둥근 모서리 */
-            font-weight: 700; /* 굵게 */
+            color: #283593 !important; background-color: #e8eaf6; 
+            padding: 3px 6px; border-radius: 4px; font-weight: 700; 
         }
 
         .perf-ratio-badge {
@@ -188,21 +170,11 @@
         
         .perf-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
         
-        /* 점수 입력칸 스타일 - 확실하게 적용 */
         .score-input {
-            width: 70px; 
-            padding: 8px; 
-            border: 1px solid #bbb !important; 
-            border-radius: 6px;
-            text-align: center;
-            font-size: 16px;
-            font-weight: 700; 
-            outline: none;
-            background-color: #ffffff !important; /* 흰색 배경 강제 적용 */
-            color: #000000 !important; /* 검은 글씨 강제 적용 */
-            -webkit-appearance: none; /* 스피너 제거 */
-            appearance: none;
-            margin: 0;
+            width: 70px; padding: 8px; border: 1px solid #bbb !important; 
+            border-radius: 6px; text-align: center; font-size: 16px; font-weight: 700; 
+            outline: none; background-color: #ffffff !important; color: #000000 !important; 
+            -webkit-appearance: none; appearance: none; margin: 0;
         }
         .score-input:focus { border-color: var(--primary) !important; }
         .unit-text { font-size: 14px; color: #333; font-weight: 500; margin-left: 4px; }
@@ -219,27 +191,51 @@
         .final-feedback-area { padding: 0 18px 18px 18px; background: #eef2ff; }
         .final-feedback-input { width: 100%; padding: 10px; border: 1px solid #c5cae9; background: white; border-radius: 6px; font-size: 13px; resize: none; overflow-y: hidden; min-height: 50px; }
 
-        /* 모달 및 버튼 스타일 */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; justify-content: center; align-items: center; }
-        .modal { background: white; width: 90%; max-width: 400px; border-radius: 15px; padding: 20px; max-height: 80vh; overflow-y: auto; }
-        .edit-item-row { display: flex; align-items: center; gap: 5px; margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; padding-bottom: 10px; }
         
-        .move-btn-group { display: flex; flex-direction: column; gap: 2px; margin-right: 5px; }
+        /* [수정됨] 모달 패딩 조정 (좌우 패딩 15px로 축소) */
+        .modal { background: white; width: 90%; max-width: 400px; border-radius: 15px; padding: 20px 15px; max-height: 80vh; overflow-y: auto; }
+        
+        /* [수정됨] 항목 수정 행 간격 조정 */
+        .edit-item-row { 
+            display: flex; 
+            align-items: center; 
+            gap: 3px; /* 좁게 */
+            margin-bottom: 10px; 
+            border-bottom: 1px solid #f0f0f0; 
+            padding-bottom: 10px; 
+            flex-wrap: nowrap; 
+        }
+        
+        .move-btn-group { display: flex; flex-direction: column; gap: 2px; margin-right: 3px; flex-shrink: 0; }
         .btn-move-row { background: none; border: 1px solid #eee; cursor: pointer; color: #bbb; padding: 0; width: 20px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: all 0.2s; }
         .btn-move-row:hover { background-color: #f0f0f0; color: #666; border-color: #ccc; }
         
-        .edit-input-name { flex: 1; padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
-        
-        /* 비율 입력칸 스타일 */
-        .edit-input-ratio { 
-            width: 55px; flex: none; padding: 8px; border: 1px solid #ddd; border-radius: 4px; text-align: center; 
+        /* [수정됨] 입력칸 자동 줄어듦 설정 (min-width: 0) */
+        .edit-input-name { 
+            flex: 1; 
+            min-width: 0; 
+            padding: 8px 5px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-size: 13px; 
         }
         
-        .btn-delete-row { background: none; border: none; cursor: pointer; color: #bbb; padding: 8px; margin-left: 2px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        /* [수정됨] 비율칸 너비 축소 (40px) */
+        .edit-input-ratio { 
+            width: 40px; 
+            flex: none; 
+            padding: 8px 2px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            text-align: center; 
+            font-size: 13px; 
+        }
+        
+        .btn-delete-row { background: none; border: none; cursor: pointer; color: #bbb; padding: 8px; margin-left: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
         .btn-delete-row:hover { color: var(--danger); background-color: #ffebee; transform: scale(1.1); }
         .btn-delete-row svg { pointer-events: none; }
         
-        /* 수정 모달 버튼 그룹 */
         .edit-modal-btn-group { display: flex; gap: 8px; margin-top: 20px; }
         .edit-modal-btn-group button { flex: 1; padding: 8px 0; font-size: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; display: flex; align-items: center; justify-content: center; margin: 0; }
         .btn-add-item { background-color: var(--success-bg); color: var(--success-text); border: 1px dashed #a5d6a7; transition: background 0.2s; }
@@ -249,102 +245,28 @@
         
         .modal h3 { margin-top: 0; color: var(--primary); }
         
-        /* 설정 모달 버튼 */
         .btn-save { background: var(--primary); color: white; border: none; padding: 10px 0; border-radius: 8px; font-size: 15px; cursor: pointer; flex: 1; }
         
-        /* 섹션 박스 스타일 (공통) - 배경색 변경 (eef2ff) */
-        .section-box {
-            border: 1px solid #dae0f2; /* 테두리 색도 약간 조정 */
-            border-radius: 8px;
-            overflow: hidden;
-            margin-bottom: 15px;
-        }
-        .section-header {
-            background-color: #eef2ff; /* 요청하신 배경색 */
-            padding: 10px 15px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #333;
-            border-bottom: 1px solid #dae0f2;
-            display: flex;
-            justify-content: space-between; /* 양쪽 정렬 */
-            align-items: center;
-        }
-        .section-content {
-            padding: 12px;
-            background: #fff;
-        }
-        .section-content p {
-            margin: 5px 0;
-            font-size: 13px;
-            line-height: 1.5;
-            color: #555;
-            letter-spacing: -1.2px; 
-        }
-        .section-content b {
-            color: #d32f2f;
-            font-weight: 700;
-        }
+        .section-box { border: 1px solid #dae0f2; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
+        .section-header { background-color: #eef2ff; padding: 10px 15px; font-size: 14px; font-weight: bold; color: #333; border-bottom: 1px solid #dae0f2; display: flex; justify-content: space-between; align-items: center; }
+        .section-content { padding: 12px; background: #fff; }
+        .section-content p { margin: 5px 0; font-size: 13px; line-height: 1.5; color: #555; letter-spacing: -1.2px; }
+        .section-content b { color: #d32f2f; font-weight: 700; }
 
-        /* 단계별 행 스타일 */
-        .step-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 5px 0;
-        }
-        .step-row p { 
-            margin: 0; 
-            letter-spacing: -1.2px; 
-            flex: 1; 
-        }
+        .step-row { display: flex; justify-content: space-between; align-items: center; margin: 5px 0; }
+        .step-row p { margin: 0; letter-spacing: -1.2px; flex: 1; }
 
-        /* 섹션 내 버튼 스타일 */
-        .btn-inline-action {
-            padding: 4px 6px; 
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            background: #fff;
-            font-size: 11px; 
-            font-weight: 600;
-            color: #555;
-            cursor: pointer;
-            transition: background 0.2s;
-            white-space: nowrap;
-            margin-left: 4px; 
-        }
+        .btn-inline-action { padding: 4px 6px; border: 1px solid #ddd; border-radius: 6px; background: #fff; font-size: 11px; font-weight: 600; color: #555; cursor: pointer; transition: background 0.2s; white-space: nowrap; margin-left: 4px; }
         .btn-inline-action:hover { background: #f5f5f5; }
         .btn-inline-action.primary { background-color: #e8eaf6; color: var(--primary); border-color: #c5cae9; }
         .btn-inline-action.success { background-color: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
 
-        /* 헤더 안의 작은 버튼 (비우기 버튼) */
-        .btn-header-small {
-            background: #fff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 4px 10px; 
-            font-size: 12px; 
-            color: #555;
-            cursor: pointer;
-        }
+        .btn-header-small { background: #fff; border: 1px solid #ccc; border-radius: 4px; padding: 4px 10px; font-size: 12px; color: #555; cursor: pointer; }
         .btn-header-small:hover { background: #f0f0f0; color: #333; }
 
-        /* 코드 입력창 내용 (수정됨: 높이 90px로 축소) */
-        .code-textarea {
-            width: 100%;
-            height: 90px; /* 높이를 줄여서 다른 섹션과 균형 맞춤 */
-            border: none;
-            background: #fff;
-            font-family: monospace;
-            font-size: 12px;
-            resize: none;
-            outline: none;
-            display: block;
-            color: #333;
-        }
+        .code-textarea { width: 100%; height: 90px; border: none; background: #fff; font-family: monospace; font-size: 12px; resize: none; outline: none; display: block; color: #333; }
         .code-textarea::placeholder { color: #bbb; }
 
-        /* 닫기 버튼 */
         .btn-close { background: #f5f5f5; color: #777; border: 1px solid #ddd; padding: 10px 0; border-radius: 8px; font-size: 15px; cursor: pointer; flex: 1; }
         .btn-close:hover { background: #e0e0e0; }
         
@@ -355,15 +277,12 @@
         
         .empty-state { padding: 40px 20px; text-align: center; color: #999; font-size: 14px; }
 
-        /* 기본 학기 설정 영역 스타일 */
-        .default-semester-area {
-            margin-bottom: 15px; padding: 10px; background: #f9f9f9; border-radius: 8px;
-            display: flex; align-items: center; justify-content: space-between;
-        }
+        .default-semester-area { margin-bottom: 15px; padding: 10px; background: #f9f9f9; border-radius: 8px; display: flex; align-items: center; justify-content: space-between; }
         .default-semester-area label { font-weight: bold; font-size: 14px; color: #333; }
-        .default-semester-area select {
-            padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px;
-        }
+        .default-semester-area select { padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px; }
+        
+        /* [수정됨] 안내 문구 - 펜 아이콘 span으로 감싸 폰트 크기 통일 */
+        .note-text { font-size: 12px; color: #777; margin-top: 15px; padding: 0 5px; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -455,6 +374,8 @@
                     <button class="btn-inline-action primary" onclick="copyPrompt(this)">📋 프롬프트 복사</button>
                 </div>
                 <p>3️⃣ 제미나이에서 생성된 코드를 <b>[코드 입력창]</b>에 입력</p>
+                <!-- [수정됨] span 태그를 사용하여 줄바꿈 및 폰트 크기 오류 방지 -->
+                <p class="note-text">※ 항목명, 비율 오류 시 과목명 옆 펜버튼(<span class="edit-pen-btn" style="display:inline-flex; width:20px; height:20px; vertical-align:middle; border: 1px solid #ccc; padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></span>)에서 수정</p>
             </div>
         </div>
 
@@ -644,15 +565,13 @@
         id: 'verticalLine',
         beforeDraw: (chart) => {
             const { ctx, chartArea: { top, bottom }, scales: { x } } = chart;
-            
-            // 학년 구분선 위치 (인덱스 중간값)
             const separatorIndices = [3.5, 7.5];
 
             ctx.save();
             ctx.beginPath();
             ctx.lineWidth = 2;
-            ctx.strokeStyle = '#e0e0e0'; // 연한 회색
-            ctx.setLineDash([5, 5]); // 점선
+            ctx.strokeStyle = '#e0e0e0';
+            ctx.setLineDash([5, 5]);
 
             separatorIndices.forEach(index => {
                 const xPos = x.getPixelForValue(index);
@@ -684,7 +603,6 @@
                         ctx.font = 'bold 10px sans-serif';
                         ctx.textAlign = 'center';
                         
-                        // 위쪽 공간이 부족하면 아래쪽에 표시 (100점일 때 잘림 방지)
                         if (y - 20 < top) {
                             ctx.textBaseline = 'top';
                             ctx.fillText('수행', x, y + 10);
@@ -747,8 +665,8 @@
                         
                         if (hasWrittenExam) {
                             isWrittenSubject = true; 
-                            const exam1 = subj.performances.find(p => p.name.includes("1차") && checkIsWrittenExam(p.name));
-                            const exam2 = subj.performances.find(p => p.name.includes("2차") && checkIsWrittenExam(p.name));
+                            const exam1 = subj.performances.find(p => (p.name.includes("1차") || p.name.includes("중간")) && checkIsWrittenExam(p.name));
+                            const exam2 = subj.performances.find(p => (p.name.includes("2차") || p.name.includes("기말")) && checkIsWrittenExam(p.name));
                             if(exam1 && exam1.score > 0) s1 = exam1.score;
                             if(exam2 && exam2.score > 0) s2 = exam2.score;
                         } else {
@@ -806,17 +724,15 @@
                     responsive: true,
                     maintainAspectRatio: false,
                     interaction: {
-                        mode: 'nearest', // 클릭 지점에서 가장 가까운 점 찾기
-                        intersect: false, // 정확히 안 눌러도 반응
+                        mode: 'nearest',
+                        intersect: false,
                         axis: 'x'
                     },
-                    // 클릭 이벤트 커스텀 핸들러 추가
                     onClick: (e, activeElements, chart) => {
                         if (activeElements.length > 0) {
                             const activeIndex = activeElements[0].index;
                             const datasetIndex = activeElements[0].datasetIndex;
                             
-                            // 이미 활성화된 점을 다시 누른 경우 -> 툴팁 끄기 (선택 해제)
                             if (chart.lastActiveIndex === activeIndex && chart.lastActiveDatasetIndex === datasetIndex) {
                                 chart.setActiveElements([]);
                                 chart.tooltip.setActiveElements([], {x: 0, y: 0});
@@ -824,17 +740,15 @@
                                 chart.lastActiveIndex = null;
                                 chart.lastActiveDatasetIndex = null;
                             } else {
-                                // 새로운 점을 누른 경우 -> 상태 저장 (기본 동작으로 툴팁 뜸)
                                 chart.lastActiveIndex = activeIndex;
                                 chart.lastActiveDatasetIndex = datasetIndex;
                             }
                         } else {
-                            // 배경 클릭 시 초기화
                             chart.lastActiveIndex = null;
                             chart.lastActiveDatasetIndex = null;
                         }
                     },
-                    events: ['click'], // 클릭 이벤트만 허용 (터치 시 hover 효과 방지)
+                    events: ['click'], 
                     scales: {
                         y: { 
                             beginAtZero: false, 
@@ -851,9 +765,17 @@
                         legend: { display: false },
                         tooltip: { 
                             enabled: true, 
-                            yAlign: 'bottom', // 툴팁을 점 위에 표시
+                            yAlign: 'bottom', // 툴팁 위치 상단 고정
+                            displayColors: false, // [New] 색상 아이콘 제거
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)', // [New] 배경을 조금 더 투명하게
+                            padding: 8, // [New] 패딩 축소
+                            titleFont: { size: 0 }, // [New] 제목(학년학기) 제거
+                            bodyFont: { size: 14, weight: 'bold' }, // [New] 점수 글씨 강조
                             callbacks: { 
-                                label: function(context) { return context.raw + '점'; } 
+                                title: () => null, // [New] 제목 숨김
+                                label: function(context) { 
+                                    return context.raw + '점'; // [New] 오직 점수만 표시
+                                } 
                             } 
                         }
                     }
@@ -869,7 +791,6 @@
         return colors[idx % colors.length];
     }
 
-    // --- 메인 로직 ---
     function checkIsWrittenExam(name) {
         return name.includes("지필") || (name.includes("고사") && !name.includes("고사성어"));
     }
@@ -884,16 +805,17 @@
         }, 0);
     }
     
-    // 지필평가 평균 계산 로직
     function calculateExamAvg(nth) {
         let total = 0;
         let count = 0;
         subjects.forEach(sub => {
-            // "1차" 또는 "2차" 텍스트가 있고, 지필평가인 항목 찾기
-            const perf = sub.performances.find(p => 
-                p.name.includes(nth) && checkIsWrittenExam(p.name)
-            );
-            // 해당 평가 항목이 존재하는 경우 (점수 0이어도 시험 범위면 포함)
+            const perf = sub.performances.find(p => {
+                const isWritten = checkIsWrittenExam(p.name);
+                if (!isWritten) return false;
+                if (nth === "1차") return p.name.includes("1차") || p.name.includes("중간");
+                if (nth === "2차") return p.name.includes("2차") || p.name.includes("기말");
+                return false;
+            });
             if (perf) {
                 total += perf.score;
                 count++;
@@ -902,12 +824,10 @@
         return count === 0 ? 0 : truncateScore(total / count);
     }
     
-    // 소수점 둘째자리 버림 처리 함수
     function truncateScore(num) {
         return Math.floor(Number(num.toFixed(4)) * 10) / 10;
     }
 
-    // 성적 등급 계산 로직 (음악, 미술, 체육 반영)
     function getGrade(score, subject) {
         if (score === 0) return '';
         const rounded = Math.round(score);
@@ -925,7 +845,6 @@
         }
     }
 
-    // 그래프 색상 반환 함수
     function getBarColor(score, subject) {
         const grade = getGrade(score, subject);
         if (grade === 'A') return 'rgba(63, 81, 181, 0.8)';
@@ -1134,7 +1053,8 @@
     }
 
     function copyPrompt(btnElement) {
-        const promptText = `이 이미지에 있는 평가 계획표를 분석해서 아래 JSON 포맷의 코드로 변환해줘.\n오직 JSON 코드만 출력해.\n\n[요구사항]\n1. 과목별로 수행평가 항목과 지필평가(중간/기말 등)를 모두 포함할 것.\n2. '지필평가'는 이름에 반드시 '지필평가' 또는 '고사'라는 단어를 포함할 것.\n3. 수행평가나 지필평가의 비율(%)은 숫자만 추출해서 'ratio'에 넣을 것.\n4. JSON 구조는 반드시 아래 형식을 따를 것.\n5. performances 배열의 순서는 반드시 [모든 수행평가 항목들]을 먼저 나열하고, 그 뒤에 [1차 지필평가, 2차 지필평가] 순서로 배치할 것.\n6. 표에 지필평가 비율이 없거나 '-' 표시가 되어 있거나 0%인 경우, 해당 지필평가 항목은 절대로 생성하지 말 것. (매우 중요)\n7. 수행평가 만으로 100%인 경우, 지필평가 항목을 억지로 추가하지 말 것.\n\n[\n  {\n    "subject": "과목명",\n    "performances": [\n      {"name": "평가항목명", "ratio": 20, "score": 0, "memo": ""},\n      {"name": "1차 지필평가", "ratio": 30, "score": 0, "memo": ""}\n    ],\n    "finalFeedback": ""\n  }\n]`;
+        // 프롬프트 수정: 8번, 9번 제약 조건 추가 (선택/논술형 합치기, 차수 이름 유지)
+        const promptText = `이 이미지에 있는 평가 계획표를 분석해서 아래 JSON 포맷의 코드로 변환해줘.\n오직 JSON 코드만 출력해.\n\n[요구사항]\n1. 과목별로 수행평가 항목과 지필평가(중간/기말 등)를 모두 포함할 것.\n2. '지필평가'는 이름에 반드시 '지필평가' 또는 '고사'라는 단어를 포함할 것.\n3. 수행평가나 지필평가의 비율(%)은 숫자만 추출해서 'ratio'에 넣을 것.\n4. JSON 구조는 반드시 아래 형식을 따를 것.\n5. performances 배열의 순서는 반드시 [모든 수행평가 항목들]을 먼저 나열하고, 그 뒤에 [1차 지필평가, 2차 지필평가] 순서로 배치할 것.\n6. 표에 지필평가 비율이 없거나 '-' 표시가 되어 있거나 0%인 경우, 해당 지필평가 항목은 절대로 생성하지 말 것.\n7. 수행평가 만으로 100%인 경우, 지필평가 항목을 억지로 추가하지 말 것.\n8. (중요) 지필평가 항목에서 '선택형', '서술형', '논술형'은 별도 항목으로 나누지 말고, 해당 차수(1차 또는 2차)의 합계 비율로 합쳐서 하나의 항목으로 만들 것. (예: 2차 선택형 40% + 2차 논술형 10% -> '2차 지필평가' 50%)\n9. (매우 중요) 지필평가의 이름은 표의 헤더(1차, 2차, 중간, 기말)를 정확히 반영할 것. 만약 1차가 없고 2차만 있다면, 항목 이름을 반드시 '2차 지필평가'로 적을 것. ('1차'로 임의 변경 금지)\n\n[\n  {\n    "subject": "과목명",\n    "performances": [\n      {"name": "평가항목명", "ratio": 20, "score": 0, "memo": ""},\n      {"name": "1차 지필평가", "ratio": 30, "score": 0, "memo": ""},\n      {"name": "2차 지필평가", "ratio": 30, "score": 0, "memo": ""}\n    ],\n    "finalFeedback": ""\n  }\n]`;
         const textArea = document.createElement("textarea"); textArea.value = promptText; textArea.style.position = "fixed"; textArea.style.left = "-9999px"; document.body.appendChild(textArea); textArea.select();
         try { document.execCommand('copy'); 
             const originalText = btnElement.innerHTML;
