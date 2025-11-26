@@ -660,22 +660,33 @@
     const perfLabelPlugin = {
         id: 'perfLabel',
         afterDatasetsDraw: (chart) => {
-            const { ctx, data } = chart;
+            const { ctx, chartArea: { top } } = chart; // Get top boundary
             chart.data.datasets.forEach((dataset, i) => {
                 const meta = chart.getDatasetMeta(i);
                 meta.data.forEach((element, index) => {
-                    // 커스텀 플래그 확인
                     if (dataset.pointFlags && dataset.pointFlags[index] === 'performance' && !element.skip) {
                         const x = element.x;
                         const y = element.y;
                         
                         ctx.save();
-                        ctx.fillStyle = '#666'; // 글자색
+                        ctx.fillStyle = '#666'; 
                         ctx.font = 'bold 10px sans-serif';
                         ctx.textAlign = 'center';
-                        ctx.textBaseline = 'bottom';
-                        // 점 위에 "수행" 글씨 표시 (y좌표에서 -8px 위)
-                        ctx.fillText('수행', x, y - 8);
+                        
+                        // Check if there is enough space above
+                        // y is the point position. We want to draw at y - 8 normally.
+                        // Let's say text height is about 10px.
+                        // If y - 20 < top, it might be clipped.
+                        
+                        if (y - 20 < top) {
+                            // Not enough space above, draw below
+                            ctx.textBaseline = 'top';
+                            ctx.fillText('수행', x, y + 8);
+                        } else {
+                            // Draw above (default)
+                            ctx.textBaseline = 'bottom';
+                            ctx.fillText('수행', x, y - 8);
+                        }
                         ctx.restore();
                     }
                 });
