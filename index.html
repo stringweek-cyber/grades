@@ -21,7 +21,7 @@
             --success-text: #2e7d32;
             
             /* 텍스트 색상 변수 */
-            --text-perf: #1976D2; /* 수행평가: 파랑 */
+            --text-perf: #5C6BC0; /* 수행평가: 헤더 타이틀(--primary)과 동일한 색상 */
         }
 
         * { box-sizing: border-box; }
@@ -167,7 +167,7 @@
         .perf-title-text { 
             font-size: 15px; 
             font-weight: 600; 
-            color: var(--text-perf); /* 수행평가: 파란색 */
+            color: var(--text-perf); /* 수행평가: 헤더와 동일색 */
             display: inline; 
             line-height: 1.4; 
             word-break: keep-all; 
@@ -238,25 +238,25 @@
         
         .modal h3 { margin-top: 0; color: var(--primary); }
         
-        /* 설정 모달 버튼 (수정됨: 높이 줄임) */
+        /* 설정 모달 버튼 */
         .btn-save { background: var(--primary); color: white; border: none; padding: 10px 0; border-radius: 8px; font-size: 15px; cursor: pointer; flex: 1; }
         
-        /* 섹션 박스 스타일 (공통) */
+        /* 섹션 박스 스타일 (공통) - 배경색 변경 (eef2ff) */
         .section-box {
-            border: 1px solid #dae0f2;
+            border: 1px solid #dae0f2; /* 테두리 색도 약간 조정 */
             border-radius: 8px;
             overflow: hidden;
             margin-bottom: 15px;
         }
         .section-header {
-            background-color: #eef2ff;
+            background-color: #eef2ff; /* 요청하신 배경색 */
             padding: 10px 15px;
             font-size: 14px;
             font-weight: bold;
             color: #333;
             border-bottom: 1px solid #dae0f2;
             display: flex;
-            justify-content: space-between;
+            justify-content: space-between; /* 양쪽 정렬 */
             align-items: center;
         }
         .section-content {
@@ -318,7 +318,7 @@
         }
         .btn-header-small:hover { background: #f0f0f0; color: #333; }
 
-        /* 코드 입력창 내용 (수정됨: 높이 90px로 축소) */
+        /* 코드 입력창 내용 */
         .code-textarea {
             width: 100%;
             height: 90px; /* 높이를 줄여서 다른 섹션과 균형 맞춤 */
@@ -333,7 +333,7 @@
         }
         .code-textarea::placeholder { color: #bbb; }
 
-        /* 닫기 버튼 (수정됨: 높이 줄임) */
+        /* 닫기 버튼 */
         .btn-close { background: #f5f5f5; color: #777; border: 1px solid #ddd; padding: 10px 0; border-radius: 8px; font-size: 15px; cursor: pointer; flex: 1; }
         .btn-close:hover { background: #e0e0e0; }
         
@@ -785,20 +785,46 @@
         return Math.floor(Number(num.toFixed(4)) * 10) / 10;
     }
 
-    function getGrade(score) {
+    // 성적 등급 계산 로직 (음악, 미술, 체육 반영)
+    function getGrade(score, subject) {
         if (score === 0) return '';
         const rounded = Math.round(score);
-        if (rounded >= 90) return 'A';
-        if (rounded >= 80) return 'B';
-        if (rounded >= 70) return 'C';
-        if (rounded >= 60) return 'D';
-        return 'E';
+        
+        // 예체능(음악, 미술, 체육)은 3등급 절대평가 (A/B/C)
+        // 79.5 이상(반올림 80) -> A
+        // 59.5 이상(반올림 60) -> B
+        // 59.5 미만(반올림 60 미만) -> C
+        if (['음악', '미술', '체육'].includes(subject)) {
+            if (rounded >= 80) return 'A';
+            if (rounded >= 60) return 'B';
+            return 'C';
+        } 
+        // 일반 과목은 5등급 절대평가 (A~E)
+        else {
+            if (rounded >= 90) return 'A';
+            if (rounded >= 80) return 'B';
+            if (rounded >= 70) return 'C';
+            if (rounded >= 60) return 'D';
+            return 'E';
+        }
+    }
+
+    // 그래프 색상 반환 함수 (수정됨: 등급 기반 색상 적용)
+    function getBarColor(score, subject) {
+        const grade = getGrade(score, subject);
+        
+        // 모든 과목에 대해 등급(알파벳) 별로 동일한 색상 적용
+        // (등급 산출 로직에서 반올림을 이미 처리했으므로, 여기서는 등급만 확인)
+        if (grade === 'A') return 'rgba(63, 81, 181, 0.8)';   // A - 파랑 (Indigo)
+        if (grade === 'B') return 'rgba(76, 175, 80, 0.8)';   // B - 초록 (Green)
+        if (grade === 'C') return 'rgba(255, 193, 7, 0.8)';   // C - 노랑 (Amber)
+        if (grade === 'D') return 'rgba(255, 152, 0, 0.8)';   // D - 주황 (Orange)
+        return 'rgba(244, 67, 54, 0.8)';                       // E - 빨강 (Red)
     }
 
     function getGradeText(score, subjectName) {
-        const grade = getGrade(score);
+        const grade = getGrade(score, subjectName); // subjectName 전달
         if (!grade) return '';
-        // 역사 과목 A등급 강조 로직 삭제 -> 모든 과목 동일하게 표시
         return ` (${grade})`;
     }
 
@@ -1049,7 +1075,13 @@
     function renderChart() {
         const ctx = document.getElementById('gradeChart').getContext('2d');
         if (myChart) myChart.destroy();
-        const labels = subjects.map(s => { const t = calculateTotal(s); const g = getGrade(t); return g ? `${s.subject}(${g})` : s.subject; });
+        // subjectName을 getGrade에 전달
+        const labels = subjects.map(s => { 
+            const t = calculateTotal(s); 
+            const g = getGrade(t, s.subject); // subjectName 전달
+            return g ? `${s.subject}(${g})` : s.subject; 
+        });
+        
         // 차트 데이터에도 버림 처리 적용
         const data = subjects.map(s => truncateScore(calculateTotal(s))); 
         const sum = data.reduce((a, b) => a + b, 0);
@@ -1068,12 +1100,9 @@
                 labels: labels,
                 datasets: [{
                     label: '점수', data: data,
-                    backgroundColor: data.map(score => { 
-                        if(score >= 90) return 'rgba(63, 81, 181, 0.8)';   // A - 파랑 (Indigo)
-                        if(score >= 80) return 'rgba(76, 175, 80, 0.8)';   // B - 초록 (Green)
-                        if(score >= 70) return 'rgba(255, 193, 7, 0.8)';   // C - 노랑 (Amber)
-                        if(score >= 60) return 'rgba(255, 152, 0, 0.8)';   // D - 주황 (Orange)
-                        return 'rgba(244, 67, 54, 0.8)';                   // E - 빨강 (Red)
+                    backgroundColor: data.map((score, idx) => {
+                        // getBarColor에 과목명(subject) 전달
+                        return getBarColor(score, subjects[idx].subject);
                     }),
                     borderRadius: 5, borderWidth: 0
                 }]
@@ -1086,14 +1115,17 @@
         if (!myChart) { renderChart(); return; }
         // 차트 업데이트 데이터에도 버림 처리 적용
         const newData = subjects.map(s => truncateScore(calculateTotal(s))); 
-        const newLabels = subjects.map(s => { const t = calculateTotal(s); const g = getGrade(t); return g ? `${s.subject}(${g})` : s.subject; });
+        // subjectName을 getGrade에 전달
+        const newLabels = subjects.map(s => { 
+            const t = calculateTotal(s); 
+            const g = getGrade(t, s.subject); // subjectName 전달
+            return g ? `${s.subject}(${g})` : s.subject; 
+        });
+        
         myChart.data.datasets[0].data = newData;
-        myChart.data.datasets[0].backgroundColor = newData.map(score => { 
-            if(score >= 90) return 'rgba(63, 81, 181, 0.8)';   // A
-            if(score >= 80) return 'rgba(76, 175, 80, 0.8)';   // B
-            if(score >= 70) return 'rgba(255, 193, 7, 0.8)';   // C
-            if(score >= 60) return 'rgba(255, 152, 0, 0.8)';   // D
-            return 'rgba(244, 67, 54, 0.8)';                   // E
+        myChart.data.datasets[0].backgroundColor = newData.map((score, idx) => {
+            // getBarColor에 과목명(subject) 전달
+            return getBarColor(score, subjects[idx].subject);
         });
         myChart.data.labels = newLabels;
         const sum = newData.reduce((a, b) => a + b, 0);
