@@ -645,7 +645,7 @@
 
             separatorIndices.forEach(index => {
                 const xPos = x.getPixelForValue(index);
-                if (xPos >= x.left && xPos <= x.right) { // 차트 영역 내에 있을 때만 그리기
+                if (xPos >= x.left && xPos <= x.right) { 
                      ctx.moveTo(xPos, top);
                      ctx.lineTo(xPos, bottom);
                 }
@@ -656,11 +656,11 @@
         }
     };
 
-    // "수행" 라벨 플러그인 (새로 추가됨)
+    // "수행" 라벨 플러그인
     const perfLabelPlugin = {
         id: 'perfLabel',
         afterDatasetsDraw: (chart) => {
-            const { ctx, chartArea: { top } } = chart; // Get top boundary
+            const { ctx, chartArea: { top } } = chart; 
             chart.data.datasets.forEach((dataset, i) => {
                 const meta = chart.getDatasetMeta(i);
                 meta.data.forEach((element, index) => {
@@ -673,17 +673,11 @@
                         ctx.font = 'bold 10px sans-serif';
                         ctx.textAlign = 'center';
                         
-                        // Check if there is enough space above
-                        // y is the point position. We want to draw at y - 8 normally.
-                        // Let's say text height is about 10px.
-                        // If y - 20 < top, it might be clipped.
-                        
+                        // 위쪽 공간이 부족하면 아래쪽에 표시 (100점일 때 잘림 방지)
                         if (y - 20 < top) {
-                            // Not enough space above, draw below
                             ctx.textBaseline = 'top';
-                            ctx.fillText('수행', x, y + 8);
+                            ctx.fillText('수행', x, y + 10);
                         } else {
-                            // Draw above (default)
                             ctx.textBaseline = 'bottom';
                             ctx.fillText('수행', x, y - 8);
                         }
@@ -726,13 +720,13 @@
 
         subjectsList.forEach((subjectName, idx) => {
             const scores = [];
-            const pointFlags = []; // [New] 각 점이 '수행'인지 표시할 플래그 배열
+            const pointFlags = []; 
             let isWrittenSubject = false; 
 
             semesters.forEach(sem => {
                 const raw = localStorage.getItem(sem);
                 let s1 = null, s2 = null;
-                let s1Flag = null, s2Flag = null; // 각 점의 플래그
+                let s1Flag = null, s2Flag = null; 
 
                 if(raw) {
                     const data = JSON.parse(raw);
@@ -747,12 +741,11 @@
                             if(exam1 && exam1.score > 0) s1 = exam1.score;
                             if(exam2 && exam2.score > 0) s2 = exam2.score;
                         } else {
-                            // 지필평가가 없는 경우 -> 학기말(2차 시기)에 최종 점수 표시하고 "수행" 라벨 붙임
                             const total = calculateTotal(subj);
                             const finalScore = truncateScore(total);
                             if (finalScore > 0) {
                                 s2 = finalScore; 
-                                s2Flag = 'performance'; // 플래그 설정
+                                s2Flag = 'performance'; 
                             }
                         }
                     }
@@ -763,8 +756,7 @@
                 pointFlags.push(s2Flag);
             });
 
-            // 지필평가 유무에 따라 소제목 설정 (없으면 빈 문자열)
-            const trendLabel = isWrittenSubject ? "지필평가 점수 변화" : "";
+            const trendLabel = isWrittenSubject ? "지필평가 (미실시 학기는 총점)" : "";
 
             const card = document.createElement('div');
             card.className = 'chart-card';
@@ -795,12 +787,18 @@
                         fill: false,
                         tension: 0.2,
                         spanGaps: true,
-                        pointFlags: pointFlags // [New] 커스텀 데이터 전달
+                        pointFlags: pointFlags,
+                        pointHitRadius: 30 // [New] 터치 영역을 30px로 넓혀서 클릭하기 쉽게 만듦
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
+                    interaction: {
+                        mode: 'nearest', // [New] 클릭 지점에서 가장 가까운 점을 찾음
+                        intersect: false, // [New] 점을 정확히 안 눌러도 반응하게 함
+                        axis: 'x'
+                    },
                     scales: {
                         y: { 
                             beginAtZero: false, 
@@ -815,10 +813,15 @@
                     },
                     plugins: {
                         legend: { display: false },
-                        tooltip: { callbacks: { label: function(context) { return context.raw ? context.raw + '점' : ''; } } }
+                        tooltip: { 
+                            enabled: true, // 툴팁 활성화
+                            callbacks: { 
+                                label: function(context) { return context.raw + '점'; } 
+                            } 
+                        }
                     }
                 },
-                plugins: [verticalLinePlugin, perfLabelPlugin] // [New] 라벨 플러그인 추가
+                plugins: [verticalLinePlugin, perfLabelPlugin] 
             });
             trendCharts.push(chart);
         });
