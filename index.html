@@ -753,7 +753,7 @@
                         y: { 
                             beginAtZero: false, 
                             min: 50, 
-                            max: 100, // [수정됨] 120 -> 100으로 다시 변경 (100점 만점 기준)
+                            max: 100, // 100점 만점 유지
                             grid: { borderDash: [2, 4] }
                         },
                         x: {
@@ -765,14 +765,11 @@
                         legend: { display: false },
                         tooltip: { 
                             enabled: true, 
-                            // [수정됨] yAlign 삭제: 공간에 따라 위/아래 자동 배치 (100점일 땐 아래로 뜸)
-                            // yAlign: 'bottom', 
+                            yAlign: 'bottom', // [복구] 툴팁 위치 상단 고정 (말풍선 꼬리 아래로)
                             displayColors: false, 
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)', 
+                            backgroundColor: 'rgba(0, 0, 0, 0.7)', // [복구] 투명도 0.7
                             padding: 8, 
-                            caretSize: 0,     // 말풍선 꼬리 없음
-                            caretPadding: 10, // [수정됨] 점과 툴팁 사이 간격 추가 (점을 가리지 않음)
-                            cornerRadius: 6,  
+                            // [삭제] caretSize, caretPadding, cornerRadius 등 추가했던 스타일 제거
                             titleFont: { size: 0 }, 
                             bodyFont: { size: 14, weight: 'bold' }, 
                             callbacks: { 
@@ -782,15 +779,8 @@
                                 } 
                             } 
                         }
-                    },
-                    layout: {
-                        padding: {
-                            top: 10, // [수정됨] 100점 점이 짤리지 않도록 상단 여백 소폭 추가
-                            bottom: 0,
-                            left: 0,
-                            right: 0
-                        }
                     }
+                    // [삭제] layout 패딩 설정 제거
                 },
                 plugins: [verticalLinePlugin, perfLabelPlugin] 
             });
