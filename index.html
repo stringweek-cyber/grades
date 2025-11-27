@@ -753,7 +753,7 @@
                         y: { 
                             beginAtZero: false, 
                             min: 50, 
-                            max: 120, // [수정됨] 100점일 때 툴팁 공간 확보를 위해 120으로 상향
+                            max: 100, // [수정됨] 120 -> 100으로 다시 변경 (100점 만점 기준)
                             grid: { borderDash: [2, 4] }
                         },
                         x: {
@@ -765,12 +765,14 @@
                         legend: { display: false },
                         tooltip: { 
                             enabled: true, 
-                            yAlign: 'bottom', // 툴팁을 항상 점 위에 표시 (툴팁의 아래쪽이 점을 향함)
+                            // [수정됨] yAlign 삭제: 공간에 따라 위/아래 자동 배치 (100점일 땐 아래로 뜸)
+                            // yAlign: 'bottom', 
                             displayColors: false, 
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)', 
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)', 
                             padding: 8, 
-                            caretSize: 0,     // [수정됨] 말풍선 꼬리 제거
-                            cornerRadius: 6,  // [수정됨] 둥근 모서리 사각형
+                            caretSize: 0,     // 말풍선 꼬리 없음
+                            caretPadding: 10, // [수정됨] 점과 툴팁 사이 간격 추가 (점을 가리지 않음)
+                            cornerRadius: 6,  
                             titleFont: { size: 0 }, 
                             bodyFont: { size: 14, weight: 'bold' }, 
                             callbacks: { 
@@ -779,6 +781,14 @@
                                     return context.raw + '점'; 
                                 } 
                             } 
+                        }
+                    },
+                    layout: {
+                        padding: {
+                            top: 10, // [수정됨] 100점 점이 짤리지 않도록 상단 여백 소폭 추가
+                            bottom: 0,
+                            left: 0,
+                            right: 0
                         }
                     }
                 },
