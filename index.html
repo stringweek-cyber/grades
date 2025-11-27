@@ -761,15 +761,26 @@
                             ticks: { maxRotation: 45, minRotation: 45, font: { size: 10 } }
                         }
                     },
+                    // [추가] 100점일 때 툴팁이 잘리지 않도록 상단 여백 확보
+                    layout: {
+                        padding: {
+                            top: 30, 
+                            left: 10,
+                            right: 10,
+                            bottom: 5
+                        }
+                    },
                     plugins: {
                         legend: { display: false },
                         tooltip: { 
                             enabled: true, 
-                            yAlign: 'bottom', // [복구] 툴팁 위치 상단 고정 (말풍선 꼬리 아래로)
+                            yAlign: 'bottom', // 툴팁 위치 상단 고정 (점 위에 표시)
                             displayColors: false, 
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)', // [복구] 투명도 0.7
-                            padding: 8, 
-                            // [삭제] caretSize, caretPadding, cornerRadius 등 추가했던 스타일 제거
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)', // 조금 더 진한 검정
+                            padding: 10,      // 내부 여백을 넉넉하게
+                            caretSize: 0,     // [수정됨] 꼬리 제거
+                            caretPadding: 8,  // [수정됨] 점과 툴팁 사이 간격 띄우기
+                            cornerRadius: 6,  // [수정됨] 둥근 모서리 사각형
                             titleFont: { size: 0 }, 
                             bodyFont: { size: 14, weight: 'bold' }, 
                             callbacks: { 
@@ -780,7 +791,6 @@
                             } 
                         }
                     }
-                    // [삭제] layout 패딩 설정 제거
                 },
                 plugins: [verticalLinePlugin, perfLabelPlugin] 
             });
