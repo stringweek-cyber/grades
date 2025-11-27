@@ -193,14 +193,14 @@
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; justify-content: center; align-items: center; }
         
-        /* [수정됨] 모달 패딩 최적화 */
+        /* [수정됨] 모달 패딩 조정 (좌우 패딩 15px로 축소) */
         .modal { background: white; width: 90%; max-width: 400px; border-radius: 15px; padding: 20px 15px; max-height: 80vh; overflow-y: auto; }
         
-        /* [수정됨] 항목 수정 행 스타일 (X버튼 잘림 방지) */
+        /* [수정됨] 항목 수정 행 간격 조정 */
         .edit-item-row { 
             display: flex; 
             align-items: center; 
-            gap: 2px; /* 간격 2px로 최소화 */
+            gap: 3px; /* 좁게 */
             margin-bottom: 10px; 
             border-bottom: 1px solid #f0f0f0; 
             padding-bottom: 10px; 
@@ -211,21 +211,21 @@
         .btn-move-row { background: none; border: 1px solid #eee; cursor: pointer; color: #bbb; padding: 0; width: 20px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: all 0.2s; }
         .btn-move-row:hover { background-color: #f0f0f0; color: #666; border-color: #ccc; }
         
-        /* [수정됨] 이름 입력칸 - min-width: 0 필수 (Flexbox overflow 방지) */
+        /* [수정됨] 입력칸 자동 줄어듦 설정 (min-width: 0) */
         .edit-input-name { 
             flex: 1; 
             min-width: 0; 
-            padding: 8px 4px; 
+            padding: 8px 5px; 
             border: 1px solid #ddd; 
             border-radius: 4px; 
             font-size: 13px; 
         }
         
-        /* [수정됨] 비율 입력칸 너비 35px로 축소 */
+        /* [수정됨] 비율칸 너비 축소 (40px) */
         .edit-input-ratio { 
-            width: 35px; 
+            width: 40px; 
             flex: none; 
-            padding: 8px 0; /* 패딩 제거 */
+            padding: 8px 2px; 
             border: 1px solid #ddd; 
             border-radius: 4px; 
             text-align: center; 
@@ -250,39 +250,13 @@
         .section-box { border: 1px solid #dae0f2; border-radius: 8px; overflow: hidden; margin-bottom: 15px; }
         .section-header { background-color: #eef2ff; padding: 10px 15px; font-size: 14px; font-weight: bold; color: #333; border-bottom: 1px solid #dae0f2; display: flex; justify-content: space-between; align-items: center; }
         .section-content { padding: 12px; background: #fff; }
-        /* [수정됨] p 태그 스타일 - 자간 축소, 글자 크기 축소 */
-        .section-content p { 
-            margin: 5px 0; 
-            font-size: 12px; /* 13 -> 12 */
-            line-height: 1.5; 
-            color: #555; 
-            letter-spacing: -1.5px; /* 자간 좁게 */
-        }
+        .section-content p { margin: 5px 0; font-size: 13px; line-height: 1.5; color: #555; letter-spacing: -1.2px; }
         .section-content b { color: #d32f2f; font-weight: 700; }
 
         .step-row { display: flex; justify-content: space-between; align-items: center; margin: 5px 0; }
-        /* [수정됨] 한 줄 표시를 위한 텍스트 스타일 */
-        .step-row p { 
-            margin: 0; 
-            letter-spacing: -1.5px; 
-            font-size: 12px;
-            flex: 1; 
-        }
+        .step-row p { margin: 0; letter-spacing: -1.2px; flex: 1; }
 
-        /* [수정됨] 버튼 크기 다이어트 (한 줄 표시용) */
-        .btn-inline-action { 
-            padding: 2px 5px; /* 패딩 축소 */
-            border: 1px solid #ddd; 
-            border-radius: 6px; 
-            background: #fff; 
-            font-size: 11px; 
-            font-weight: 600; 
-            color: #555; 
-            cursor: pointer; 
-            transition: background 0.2s; 
-            white-space: nowrap; 
-            margin-left: 3px; 
-        }
+        .btn-inline-action { padding: 4px 6px; border: 1px solid #ddd; border-radius: 6px; background: #fff; font-size: 11px; font-weight: 600; color: #555; cursor: pointer; transition: background 0.2s; white-space: nowrap; margin-left: 4px; }
         .btn-inline-action:hover { background: #f5f5f5; }
         .btn-inline-action.primary { background-color: #e8eaf6; color: var(--primary); border-color: #c5cae9; }
         .btn-inline-action.success { background-color: #e8f5e9; color: #2e7d32; border-color: #a5d6a7; }
@@ -307,6 +281,7 @@
         .default-semester-area label { font-weight: bold; font-size: 14px; color: #333; }
         .default-semester-area select { padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px; }
         
+        /* [수정됨] 안내 문구 - 펜 아이콘 span으로 감싸 폰트 크기 통일 */
         .note-text { font-size: 12px; color: #777; margin-top: 15px; padding: 0 5px; line-height: 1.4; }
     </style>
 </head>
@@ -399,7 +374,7 @@
                     <button class="btn-inline-action primary" onclick="copyPrompt(this)">📋 프롬프트 복사</button>
                 </div>
                 <p>3️⃣ 제미나이에서 생성된 코드를 <b>[코드 입력창]</b>에 입력</p>
-                <!-- [수정됨] note-text 내부 아이콘 span 태그로 감싸서 줄바꿈 방지 및 폰트 크기 통일 -->
+                <!-- [수정됨] span 태그를 사용하여 줄바꿈 및 폰트 크기 오류 방지 -->
                 <p class="note-text">※ 항목명, 비율 오류 시 과목명 옆 펜버튼(<span class="edit-pen-btn" style="display:inline-flex; width:20px; height:20px; vertical-align:middle; border: 1px solid #ccc; padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></span>)에서 수정</p>
             </div>
         </div>
@@ -778,7 +753,7 @@
                         y: { 
                             beginAtZero: false, 
                             min: 50, 
-                            max: 100,
+                            max: 120, // [수정됨] 100점일 때 툴팁 공간 확보를 위해 120으로 상향
                             grid: { borderDash: [2, 4] }
                         },
                         x: {
@@ -790,10 +765,12 @@
                         legend: { display: false },
                         tooltip: { 
                             enabled: true, 
-                            yAlign: 'bottom', 
+                            yAlign: 'bottom', // 툴팁을 항상 점 위에 표시 (툴팁의 아래쪽이 점을 향함)
                             displayColors: false, 
                             backgroundColor: 'rgba(0, 0, 0, 0.7)', 
                             padding: 8, 
+                            caretSize: 0,     // [수정됨] 말풍선 꼬리 제거
+                            cornerRadius: 6,  // [수정됨] 둥근 모서리 사각형
                             titleFont: { size: 0 }, 
                             bodyFont: { size: 14, weight: 'bold' }, 
                             callbacks: { 
