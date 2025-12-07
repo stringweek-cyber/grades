@@ -11,6 +11,7 @@
             --primary: #5C6BC0;
             --highlight: #0000f2;
             --pen-color: #7986cb;
+            --target-color: #ef5350; /* 목표 버튼 색상 */
             --bg: #F0F2F5;
             --white: #ffffff;
             --text-main: #333;
@@ -132,14 +133,20 @@
         .subject-info { display: flex; align-items: center; gap: 8px; }
         .subject-info h3 { margin: 0; font-size: 18px; font-weight: 700; color: #2c3e50; }
         
-        .edit-pen-btn { 
+        .icon-action-btn { 
             cursor: pointer; padding: 5px; border: 1px solid #dae0f2;
             border-radius: 50%; background: #fff; width: 30px; height: 30px; 
             display: flex; align-items: center; justify-content: center;
-            color: var(--pen-color); transition: all 0.2s;
+            transition: all 0.2s;
         }
+        .edit-pen-btn { color: var(--pen-color); }
         .edit-pen-btn:hover { background-color: #f0f4ff; border-color: var(--pen-color); }
-        .edit-pen-btn svg { pointer-events: none; }
+        
+        /* 목표 버튼 스타일 추가 */
+        .goal-target-btn { color: var(--target-color); margin-left: 2px; }
+        .goal-target-btn:hover { background-color: #ffebee; border-color: var(--target-color); }
+
+        .icon-action-btn svg { pointer-events: none; }
         
         .score-badge {
             background: #E8EAF6; color: var(--primary); padding: 6px 12px;
@@ -193,44 +200,20 @@
 
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 999; justify-content: center; align-items: center; }
         
-        /* [수정됨] 모달 패딩 조정 (좌우 패딩 15px로 축소) */
         .modal { background: white; width: 90%; max-width: 400px; border-radius: 15px; padding: 20px 15px; max-height: 80vh; overflow-y: auto; }
         
-        /* [수정됨] 항목 수정 행 간격 조정 */
         .edit-item-row { 
-            display: flex; 
-            align-items: center; 
-            gap: 3px; /* 좁게 */
-            margin-bottom: 10px; 
-            border-bottom: 1px solid #f0f0f0; 
-            padding-bottom: 10px; 
-            flex-wrap: nowrap; 
+            display: flex; align-items: center; gap: 3px; 
+            margin-bottom: 10px; border-bottom: 1px solid #f0f0f0; 
+            padding-bottom: 10px; flex-wrap: nowrap; 
         }
         
         .move-btn-group { display: flex; flex-direction: column; gap: 2px; margin-right: 3px; flex-shrink: 0; }
         .btn-move-row { background: none; border: 1px solid #eee; cursor: pointer; color: #bbb; padding: 0; width: 20px; height: 18px; font-size: 10px; display: flex; align-items: center; justify-content: center; border-radius: 4px; transition: all 0.2s; }
         .btn-move-row:hover { background-color: #f0f0f0; color: #666; border-color: #ccc; }
         
-        /* [수정됨] 입력칸 자동 줄어듦 설정 (min-width: 0) */
-        .edit-input-name { 
-            flex: 1; 
-            min-width: 0; 
-            padding: 8px 5px; 
-            border: 1px solid #ddd; 
-            border-radius: 4px; 
-            font-size: 13px; 
-        }
-        
-        /* [수정됨] 비율칸 너비 축소 (40px) */
-        .edit-input-ratio { 
-            width: 40px; 
-            flex: none; 
-            padding: 8px 2px; 
-            border: 1px solid #ddd; 
-            border-radius: 4px; 
-            text-align: center; 
-            font-size: 13px; 
-        }
+        .edit-input-name { flex: 1; min-width: 0; padding: 8px 5px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
+        .edit-input-ratio { width: 40px; flex: none; padding: 8px 2px; border: 1px solid #ddd; border-radius: 4px; text-align: center; font-size: 13px; }
         
         .btn-delete-row { background: none; border: none; cursor: pointer; color: #bbb; padding: 8px; margin-left: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.2s ease; }
         .btn-delete-row:hover { color: var(--danger); background-color: #ffebee; transform: scale(1.1); }
@@ -244,6 +227,7 @@
         .btn-cancel-edit { background: #f5f5f5; color: #777; border: 1px solid #ddd; }
         
         .modal h3 { margin-top: 0; color: var(--primary); }
+        .modal-desc { font-size: 13px; color: #777; margin-bottom: 15px; margin-top: -10px; line-height: 1.4; }
         
         .btn-save { background: var(--primary); color: white; border: none; padding: 10px 0; border-radius: 8px; font-size: 15px; cursor: pointer; flex: 1; }
         
@@ -281,8 +265,35 @@
         .default-semester-area label { font-weight: bold; font-size: 14px; color: #333; }
         .default-semester-area select { padding: 5px; border-radius: 4px; border: 1px solid #ddd; font-size: 14px; }
         
-        /* [수정됨] 안내 문구 - 펜 아이콘 span으로 감싸 폰트 크기 통일 */
         .note-text { font-size: 12px; color: #777; margin-top: 15px; padding: 0 5px; line-height: 1.4; }
+
+        /* 목표 계산 모달 전용 스타일 */
+        .goal-grade-selector { display: flex; gap: 5px; margin-bottom: 15px; flex-wrap: wrap; }
+        .goal-grade-btn { flex: 1; border: 1px solid #ddd; background: white; padding: 8px 0; border-radius: 6px; cursor: pointer; font-weight: bold; color: #555; font-size: 14px; transition: all 0.2s; }
+        .goal-grade-btn.active { background: var(--target-color); color: white; border-color: var(--target-color); }
+        
+        .goal-input-area { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; background: #fff8e1; padding: 15px; border-radius: 8px; }
+        .goal-target-score { width: 80px; padding: 8px; border: 2px solid var(--target-color); border-radius: 6px; font-size: 20px; font-weight: 800; text-align: center; color: var(--target-color); }
+        .goal-label { font-weight: bold; color: #555; }
+        
+        .goal-list-container { max-height: 250px; overflow-y: auto; margin-bottom: 15px; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        .goal-item-row { display: flex; justify-content: space-between; align-items: center; padding: 12px 5px; border-bottom: 1px solid #f9f9f9; }
+        .goal-item-info { flex: 1; }
+        .goal-item-name { font-size: 14px; font-weight: 600; color: #333; display: block; margin-bottom: 2px; }
+        .goal-item-ratio { font-size: 11px; color: #888; background: #f1f2f6; padding: 2px 5px; border-radius: 4px; }
+        
+        .goal-item-input-group { display: flex; align-items: center; gap: 5px; }
+        .goal-score-input { width: 60px; padding: 6px; text-align: center; border: 1px solid #ddd; border-radius: 4px; font-weight: bold; font-size: 14px; }
+        .goal-score-input.fixed { background-color: #e0e0e0; color: #555; border-color: #ccc; }
+        .goal-score-input.variable { border-color: var(--target-color); color: var(--target-color); background-color: #fff; }
+        .goal-score-input:focus { outline: none; box-shadow: 0 0 0 2px rgba(239, 83, 80, 0.2); }
+        
+        .goal-status-bar { text-align: center; padding: 10px; border-radius: 8px; font-weight: bold; font-size: 14px; margin-bottom: 10px; }
+        .goal-status-bar.possible { background-color: #e8f5e9; color: #2e7d32; }
+        .goal-status-bar.impossible { background-color: #ffebee; color: #c62828; }
+        .goal-status-bar.achieved { background-color: #e3f2fd; color: #1565c0; }
+
+        .goal-helper-text { font-size: 12px; color: #888; text-align: center; margin-bottom: 15px; }
     </style>
 </head>
 <body>
@@ -348,7 +359,6 @@
     <div class="modal">
         <h3>⚙️ 설정 및 백업</h3>
         
-        <!-- 기본 학기 설정 영역 -->
         <div class="default-semester-area">
             <label for="defaultSemesterSelect">첫 화면 학기 선택:</label>
             <select id="defaultSemesterSelect">
@@ -361,31 +371,26 @@
             </select>
         </div>
 
-        <!-- 섹션 1: 평가항목&비율 자동 입력 -->
         <div class="section-box">
             <div class="section-header">
                 🤖 평가항목&비율 자동 입력
             </div>
             <div class="section-content">
                 <p>1️⃣ <b>평가계획서 사진</b>을 제미나이에 업로드</p>
-                <!-- 2번 단계 -->
                 <div class="step-row">
                     <p>2️⃣ <b>[프롬프트 복사]</b> 후 제미나이에 입력</p>
                     <button class="btn-inline-action primary" onclick="copyPrompt(this)">📋 프롬프트 복사</button>
                 </div>
-                <p>3️⃣ 제미나이에서 생성된 코드를 <b>[코드 입력창]</b>에 입력</p>
-                <!-- [수정됨] span 태그를 사용하여 줄바꿈 및 폰트 크기 오류 방지 -->
-                <p class="note-text">※ 항목명, 비율 오류 시 과목명 옆 펜버튼(<span class="edit-pen-btn" style="display:inline-flex; width:20px; height:20px; vertical-align:middle; border: 1px solid #ccc; padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></span>)에서 수정</p>
+                <p>3️⃣ 생성된 코드를 <b>[코드 입력창]</b>에 입력</p>
+                <p class="note-text">※ 항목명, 비율 오류 시 과목명 옆 펜버튼(<span class="icon-action-btn edit-pen-btn" style="display:inline-flex; width:20px; height:20px; vertical-align:middle; border: 1px solid #ccc; padding:0;"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg></span>)에서 수정</p>
             </div>
         </div>
 
-        <!-- 섹션 2: 백업 및 복구 -->
         <div class="section-box">
             <div class="section-header">
                 💾 백업 및 복구
             </div>
             <div class="section-content">
-                <!-- 1번 단계 -->
                 <div class="step-row">
                     <p>1️⃣ <b>[전체 데이터 복사]</b> 버튼 클릭</p>
                     <button class="btn-inline-action success" onclick="copyAllData(this)">💾 전체 데이터 복사</button>
@@ -394,7 +399,6 @@
             </div>
         </div>
 
-        <!-- 섹션 3: 코드 입력창 -->
         <div class="section-box">
             <div class="section-header">
                 <span>💻 코드 입력창</span>
@@ -405,7 +409,6 @@
             </div>
         </div>
         
-        <!-- 하단 버튼 그룹 -->
         <div class="modal-btn-group">
             <button class="btn-save" onclick="saveGlobalConfig()">저장 및 적용</button>
             <button class="btn-close" onclick="closeModal('settingModal')">닫기</button>
@@ -423,6 +426,38 @@
             <button class="btn-add-item" onclick="addEditItemRow()">+ 항목 추가</button>
             <button class="btn-save-edit" onclick="saveSubjectChanges()">수정 완료</button>
             <button class="btn-cancel-edit" onclick="closeModal('subjectEditModal')">취소</button>
+        </div>
+    </div>
+</div>
+
+<!-- 목표 계산기 모달 -->
+<div id="goalModal" class="modal-overlay">
+    <div class="modal">
+        <h3 id="goalModalTitle">🎯 목표 설정 및 계산</h3>
+        <p class="modal-desc">목표 점수를 설정하면 남은 평가에서 받아야 할 최소 점수를 자동으로 계산해줍니다.</p>
+        
+        <div class="goal-grade-selector" id="goalGradeSelector">
+            <!-- JS로 버튼 생성 -->
+        </div>
+        
+        <div class="goal-input-area">
+            <span class="goal-label">목표 점수</span>
+            <input type="number" id="goalTargetScore" class="goal-target-score" value="89.5" step="0.5" oninput="calculateGoalLogic(true)">
+            <span class="goal-label">점</span>
+        </div>
+
+        <div id="goalStatusBar" class="goal-status-bar">
+            <!-- 상태 메시지 -->
+        </div>
+
+        <div id="goalItemsList" class="goal-list-container">
+            <!-- 항목 리스트 -->
+        </div>
+        
+        <p class="goal-helper-text">※ 자동 계산된 점수를 수정하면 나머지 항목도 자동으로 다시 계산됩니다.</p>
+
+        <div class="modal-btn-group">
+            <button class="btn-close" onclick="closeModal('goalModal')">닫기</button>
         </div>
     </div>
 </div>
@@ -470,6 +505,10 @@
     let myChart = null;
     let trendCharts = [];
     let currentEditIndex = -1;
+    
+    // 목표 계산기용 상태 변수
+    let currentGoalSubjectIndex = -1;
+    let goalItemsState = []; // { index: 0, ratio: 30, isFixed: false, currentVal: 0, userModified: false }
 
     window.onload = function() {
         migrateOldData();
@@ -753,7 +792,7 @@
                         y: { 
                             beginAtZero: false, 
                             min: 50, 
-                            max: 100, // 100점 만점 유지
+                            max: 100, 
                             grid: { borderDash: [2, 4] }
                         },
                         x: {
@@ -761,7 +800,6 @@
                             ticks: { maxRotation: 45, minRotation: 45, font: { size: 10 } }
                         }
                     },
-                    // [추가] 100점일 때 툴팁이 잘리지 않도록 상단 여백 확보
                     layout: {
                         padding: {
                             top: 30, 
@@ -774,13 +812,13 @@
                         legend: { display: false },
                         tooltip: { 
                             enabled: true, 
-                            yAlign: 'bottom', // 툴팁 위치 상단 고정 (점 위에 표시)
+                            yAlign: 'bottom', 
                             displayColors: false, 
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)', // 조금 더 진한 검정
-                            padding: 10,      // 내부 여백을 넉넉하게
-                            caretSize: 0,     // [수정됨] 꼬리 제거
-                            caretPadding: 8,  // [수정됨] 점과 툴팁 사이 간격 띄우기
-                            cornerRadius: 6,  // [수정됨] 둥근 모서리 사각형
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)', 
+                            padding: 10,      
+                            caretSize: 0,     
+                            caretPadding: 8,  
+                            cornerRadius: 6,  
                             titleFont: { size: 0 }, 
                             bodyFont: { size: 14, weight: 'bold' }, 
                             callbacks: { 
@@ -849,10 +887,11 @@
             if (rounded >= 60) return 'B';
             return 'C';
         } else {
-            if (rounded >= 90) return 'A';
-            if (rounded >= 80) return 'B';
-            if (rounded >= 70) return 'C';
-            if (rounded >= 60) return 'D';
+            // [수정됨] 사용자 요청에 따라 반올림 기준 적용
+            if (rounded >= 90) return 'A'; // 89.5 이상
+            if (rounded >= 80) return 'B'; // 79.5 이상
+            if (rounded >= 70) return 'C'; // 69.5 이상
+            if (rounded >= 60) return 'D'; // 59.5 이상
             return 'E';
         }
     }
@@ -891,8 +930,11 @@
                 <div class="card-header" onclick="toggleCard(event, this)">
                     <div class="subject-info">
                         <h3>${sub.subject}</h3>
-                        <div class="edit-pen-btn" onclick="openSubjectEditModal(event, ${subIdx})">
+                        <div class="icon-action-btn edit-pen-btn" onclick="openSubjectEditModal(event, ${subIdx})">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+                        </div>
+                        <div class="icon-action-btn goal-target-btn" onclick="openGoalModal(event, ${subIdx})">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>
                         </div>
                     </div>
                     <div class="score-badge">${displayScore}점${gradeText}</div>
@@ -926,7 +968,7 @@
     }
 
     function toggleCard(event, header) {
-        if (event.target.closest('.edit-pen-btn')) return;
+        if (event.target.closest('.icon-action-btn')) return;
         const body = header.nextElementSibling.nextElementSibling;
         const allBodies = document.querySelectorAll('.card-body');
         const isActive = body.classList.contains('active');
@@ -991,6 +1033,240 @@
             subjects[currentEditIndex].performances = newPerfs; saveData();
             closeModal('subjectEditModal'); renderSubjects(); renderChart(); showToast("수정이 완료되었습니다!");
         } catch (error) { showToast("오류 발생: " + error.message); }
+    }
+
+    // --- 목표 계산 기능 ---
+    function openGoalModal(event, subIdx) {
+        event.stopPropagation();
+        currentGoalSubjectIndex = subIdx;
+        const subject = subjects[subIdx];
+        
+        document.getElementById('goalModalTitle').innerText = `🎯 [${subject.subject}] 목표 계산`;
+        
+        // 등급 버튼 생성
+        const selector = document.getElementById('goalGradeSelector');
+        selector.innerHTML = '';
+        
+        const isArtSubject = ['음악', '미술', '체육'].includes(subject.subject);
+        const grades = isArtSubject ? ['A', 'B', 'C'] : ['A', 'B', 'C', 'D', 'E'];
+        
+        grades.forEach(g => {
+            const btn = document.createElement('button');
+            btn.className = 'goal-grade-btn';
+            btn.innerText = g + ' 등급';
+            btn.onclick = () => setGoalGrade(g);
+            selector.appendChild(btn);
+        });
+        
+        // 초기화: 목표 점수 89.5으로 시작 (A등급 기준)
+        document.getElementById('goalTargetScore').value = isArtSubject ? 79.5 : 89.5;
+        
+        // 데이터 준비
+        goalItemsState = subject.performances.map((p, idx) => {
+            // 점수가 0보다 크면 '이미 입력됨(Fixed)'로 간주
+            const isFixed = p.score > 0; 
+            return {
+                index: idx,
+                name: p.name,
+                ratio: p.ratio,
+                isWritten: checkIsWrittenExam(p.name), // 지필평가 여부 체크
+                isFixed: isFixed,
+                currentVal: isFixed ? p.score : 0, // 초기값
+                userModified: false // 유저가 모달 안에서 수정했는지 여부
+            };
+        });
+        
+        // 초기 계산 및 렌더링
+        calculateGoalLogic(true);
+        
+        document.getElementById('goalModal').style.display = 'flex';
+    }
+
+    function setGoalGrade(grade) {
+        const subject = subjects[currentGoalSubjectIndex];
+        const isArt = ['음악', '미술', '체육'].includes(subject.subject);
+        let score = 89.5;
+        
+        if (isArt) {
+            if (grade === 'A') score = 79.5; // 80 -> 79.5 (반올림)
+            else if (grade === 'B') score = 59.5; // 60 -> 59.5 (반올림)
+            else score = 0; // C
+        } else {
+            // [수정됨] 반올림 기준 목표 점수 적용
+            if (grade === 'A') score = 89.5;
+            else if (grade === 'B') score = 79.5;
+            else if (grade === 'C') score = 69.5;
+            else if (grade === 'D') score = 59.5;
+            else score = 0; // E
+        }
+        
+        document.getElementById('goalTargetScore').value = score;
+        
+        // 버튼 활성화 스타일
+        document.querySelectorAll('.goal-grade-btn').forEach(b => {
+            if (b.innerText.startsWith(grade)) b.classList.add('active');
+            else b.classList.remove('active');
+        });
+        
+        // 리셋: 등급을 바꾸면 사용자가 수정한 값도 초기화하고 다시 균등 분배
+        goalItemsState.forEach(item => {
+            if (!item.isFixed) item.userModified = false;
+        });
+        
+        calculateGoalLogic(true);
+    }
+    
+    // 계산 로직 (isReset: 전부 다시 균등분배 할지 여부)
+    function calculateGoalLogic(isReset = false) {
+        const targetScore = parseFloat(document.getElementById('goalTargetScore').value) || 0;
+        
+        let fixedTotalScore = 0; 
+        let userModifiedTotalScore = 0;
+        let remainingRatio = 0;
+        
+        // 1. 점수 합산 로직 (지필은 비율 적용, 수행은 그대로 더하기)
+        goalItemsState.forEach(item => {
+            let contribution = 0;
+            if (item.isWritten) {
+                // 지필평가: 100점 만점 기준 -> 비율 적용
+                contribution = item.currentVal * (item.ratio / 100);
+            } else {
+                // 수행평가: 입력값이 곧 반영 점수 (비율 이미 반영된 상태로 가정)
+                contribution = item.currentVal;
+            }
+
+            if (item.isFixed) {
+                // 메인화면에서 이미 입력된 값
+                fixedTotalScore += contribution;
+            } else if (item.userModified && !isReset) {
+                // 모달에서 유저가 수정한 값
+                userModifiedTotalScore += contribution;
+            } else {
+                // 자동 계산 대상 (비율 누적)
+                remainingRatio += item.ratio;
+            }
+        });
+
+        // 목표까지 남은 점수 (실제 점수 기준)
+        const neededScore = targetScore - fixedTotalScore - userModifiedTotalScore;
+        
+        let possible = true;
+        let message = "";
+        let statusClass = "possible";
+
+        // 2. 남은 점수 분배
+        if (remainingRatio > 0) {
+            // "남은 점수(neededScore)"를 "남은 비율(remainingRatio)"에 맞춰서
+            // 100점 만점 환산 점수(effort)를 구함
+            // effort * (remainingRatio / 100) = neededScore
+            // effort = neededScore * 100 / remainingRatio
+            
+            let effortScore = (neededScore * 100) / remainingRatio;
+            
+            // 소수점 1자리까지 올림
+            effortScore = Math.ceil(effortScore * 10) / 10;
+            
+            if (effortScore < 0) effortScore = 0; // 이미 달성함
+            
+            // 상태 체크 (100점 만점 기준으로 불가능한지 체크)
+            if (effortScore > 100) {
+                possible = false;
+                message = `불가능합니다 (평균 ${effortScore}점 필요)`;
+                statusClass = "impossible";
+            } else if (effortScore <= 0) {
+                 message = "이미 목표를 달성했습니다! (0점 이상)";
+                 statusClass = "achieved";
+            } else {
+                 message = `남은 항목 평균 ${effortScore}점 필요`;
+                 statusClass = "possible";
+            }
+            
+            // 3. 각 항목에 점수 할당 (UI에 보여질 값)
+            goalItemsState.forEach(item => {
+                if (!item.isFixed && (!item.userModified || isReset)) {
+                    let valToSet = 0;
+                    if (item.isWritten) {
+                        // 지필평가는 100점 만점 점수 표시
+                        valToSet = effortScore;
+                    } else {
+                        // 수행평가는 반영 점수(비율 점수) 표시
+                        // 100점 만점 환산점수(effort)를 다시 비율에 맞게 축소
+                        valToSet = effortScore * (item.ratio / 100);
+                        // 소수점 정리
+                        valToSet = Math.round(valToSet * 10) / 10;
+                    }
+                    
+                    item.currentVal = valToSet;
+                    item.userModified = false; // 자동 계산된 상태로 설정
+                }
+            });
+            
+        } else {
+            // 남은 비율이 0인 경우 (모든 항목이 고정되었거나 유저가 수정함)
+            if (neededScore <= 0.001) { // 부동소수점 오차 고려
+                 message = "목표 달성 가능!";
+                 statusClass = "achieved";
+            } else {
+                 message = `점수가 부족합니다 (${Math.round(neededScore*10)/10}점 부족)`;
+                 statusClass = "impossible";
+            }
+        }
+
+        // UI 렌더링
+        const statusEl = document.getElementById('goalStatusBar');
+        statusEl.className = 'goal-status-bar ' + statusClass;
+        statusEl.innerText = message;
+        
+        renderGoalList();
+    }
+
+    function renderGoalList() {
+        const container = document.getElementById('goalItemsList');
+        container.innerHTML = '';
+        
+        goalItemsState.forEach((item, idx) => {
+            const row = document.createElement('div');
+            row.className = 'goal-item-row';
+            
+            let inputHtml = '';
+            if (item.isFixed) {
+                inputHtml = `
+                    <div class="goal-item-input-group">
+                        <span style="font-size:12px; color:#666;">기존점수</span>
+                        <input type="number" class="goal-score-input fixed" value="${item.currentVal}" disabled>
+                        <span class="unit-text">점</span>
+                    </div>`;
+            } else {
+                inputHtml = `
+                    <div class="goal-item-input-group">
+                        <span style="font-size:12px; color:var(--target-color); font-weight:bold;">목표점수</span>
+                        <input type="number" class="goal-score-input variable" value="${item.currentVal}" 
+                               onchange="onGoalItemChange(${idx}, this.value)">
+                        <span class="unit-text">점</span>
+                    </div>`;
+            }
+            
+            row.innerHTML = `
+                <div class="goal-item-info">
+                    <span class="goal-item-name">${item.name}</span>
+                    <span class="goal-item-ratio">${item.ratio}%</span>
+                </div>
+                ${inputHtml}
+            `;
+            container.appendChild(row);
+        });
+    }
+
+    function onGoalItemChange(idx, val) {
+        const newVal = parseFloat(val);
+        if (isNaN(newVal)) return;
+        
+        // 해당 아이템을 사용자 수정 상태로 변경
+        goalItemsState[idx].currentVal = newVal;
+        goalItemsState[idx].userModified = true;
+        
+        // 나머지를 재계산 (reset=false)
+        calculateGoalLogic(false);
     }
 
     function openGlobalSettings() { 
@@ -1065,7 +1341,6 @@
     }
 
     function copyPrompt(btnElement) {
-        // 프롬프트 수정: 8번, 9번 제약 조건 추가 (선택/논술형 합치기, 차수 이름 유지)
         const promptText = `이 이미지에 있는 평가 계획표를 분석해서 아래 JSON 포맷의 코드로 변환해줘.\n오직 JSON 코드만 출력해.\n\n[요구사항]\n1. 과목별로 수행평가 항목과 지필평가(중간/기말 등)를 모두 포함할 것.\n2. '지필평가'는 이름에 반드시 '지필평가' 또는 '고사'라는 단어를 포함할 것.\n3. 수행평가나 지필평가의 비율(%)은 숫자만 추출해서 'ratio'에 넣을 것.\n4. JSON 구조는 반드시 아래 형식을 따를 것.\n5. performances 배열의 순서는 반드시 [모든 수행평가 항목들]을 먼저 나열하고, 그 뒤에 [1차 지필평가, 2차 지필평가] 순서로 배치할 것.\n6. 표에 지필평가 비율이 없거나 '-' 표시가 되어 있거나 0%인 경우, 해당 지필평가 항목은 절대로 생성하지 말 것.\n7. 수행평가 만으로 100%인 경우, 지필평가 항목을 억지로 추가하지 말 것.\n8. (중요) 지필평가 항목에서 '선택형', '서술형', '논술형'은 별도 항목으로 나누지 말고, 해당 차수(1차 또는 2차)의 합계 비율로 합쳐서 하나의 항목으로 만들 것. (예: 2차 선택형 40% + 2차 논술형 10% -> '2차 지필평가' 50%)\n9. (매우 중요) 지필평가의 이름은 표의 헤더(1차, 2차, 중간, 기말)를 정확히 반영할 것. 만약 1차가 없고 2차만 있다면, 항목 이름을 반드시 '2차 지필평가'로 적을 것. ('1차'로 임의 변경 금지)\n\n[\n  {\n    "subject": "과목명",\n    "performances": [\n      {"name": "평가항목명", "ratio": 20, "score": 0, "memo": ""},\n      {"name": "1차 지필평가", "ratio": 30, "score": 0, "memo": ""},\n      {"name": "2차 지필평가", "ratio": 30, "score": 0, "memo": ""}\n    ],\n    "finalFeedback": ""\n  }\n]`;
         const textArea = document.createElement("textarea"); textArea.value = promptText; textArea.style.position = "fixed"; textArea.style.left = "-9999px"; document.body.appendChild(textArea); textArea.select();
         try { document.execCommand('copy'); 
@@ -1075,7 +1350,6 @@
         } catch (err) { showToast("복사 실패."); } finally { document.body.removeChild(textArea); }
     }
 
-    // 전체 데이터 복사 (백업) 함수 - 모든 학기 데이터 수집
     function copyAllData(btnElement) {
         const allData = {};
         const semesters = ['grade_1_1', 'grade_1_2', 'grade_2_1', 'grade_2_2', 'grade_3_1', 'grade_3_2'];
@@ -1118,21 +1392,17 @@
     function renderChart() {
         const ctx = document.getElementById('gradeChart').getContext('2d');
         if (myChart) myChart.destroy();
-        // subjectName을 getGrade에 전달
         const labels = subjects.map(s => { 
             const t = calculateTotal(s); 
-            const g = getGrade(t, s.subject); // subjectName 전달
+            const g = getGrade(t, s.subject); 
             return g ? `${s.subject}(${g})` : s.subject; 
         });
         
-        // 차트 데이터에도 버림 처리 적용
         const data = subjects.map(s => truncateScore(calculateTotal(s))); 
         const sum = data.reduce((a, b) => a + b, 0);
         const avg = (sum / data.length) || 0;
-        // 평균 점수도 버림 처리
         const displayAvg = truncateScore(avg);
         
-        // 전체 평균 UI 업데이트
         document.getElementById('avgTotal').innerText = `${displayAvg}점`;
         document.getElementById('avgExam1').innerText = `${calculateExamAvg("1차")}점`;
         document.getElementById('avgExam2').innerText = `${calculateExamAvg("2차")}점`;
@@ -1144,7 +1414,6 @@
                 datasets: [{
                     label: '점수', data: data,
                     backgroundColor: data.map((score, idx) => {
-                        // getBarColor에 과목명(subject) 전달
                         return getBarColor(score, subjects[idx].subject);
                     }),
                     borderRadius: 5, borderWidth: 0
@@ -1156,27 +1425,22 @@
 
     function updateChartData() {
         if (!myChart) { renderChart(); return; }
-        // 차트 업데이트 데이터에도 버림 처리 적용
         const newData = subjects.map(s => truncateScore(calculateTotal(s))); 
-        // subjectName을 getGrade에 전달
         const newLabels = subjects.map(s => { 
             const t = calculateTotal(s); 
-            const g = getGrade(t, s.subject); // subjectName 전달
+            const g = getGrade(t, s.subject);
             return g ? `${s.subject}(${g})` : s.subject; 
         });
         
         myChart.data.datasets[0].data = newData;
         myChart.data.datasets[0].backgroundColor = newData.map((score, idx) => {
-            // getBarColor에 과목명(subject) 전달
             return getBarColor(score, subjects[idx].subject);
         });
         myChart.data.labels = newLabels;
         const sum = newData.reduce((a, b) => a + b, 0);
         const avg = (sum / newData.length) || 0;
-        // 평균 점수 버림 처리
         const displayAvg = truncateScore(avg);
         
-        // 전체 평균 UI 업데이트
         document.getElementById('avgTotal').innerText = `${displayAvg}점`;
         document.getElementById('avgExam1').innerText = `${calculateExamAvg("1차")}점`;
         document.getElementById('avgExam2').innerText = `${calculateExamAvg("2차")}점`;
